@@ -9,11 +9,6 @@
     <link rel="stylesheet" href="assets/vendors/mdi/css/materialdesignicons.min.css">
     <link rel="stylesheet" href="assets/vendors/css/vendor.bundle.base.css">
     <!-- endinject -->
-    <!-- Plugin css for this page -->
-    <link rel="stylesheet" href="assets/vendors/jvectormap/jquery-jvectormap.css">
-    <link rel="stylesheet" href="assets/vendors/flag-icon-css/css/flag-icon.min.css">
-    <link rel="stylesheet" href="assets/vendors/owl-carousel-2/owl.carousel.min.css">
-    <link rel="stylesheet" href="assets/vendors/owl-carousel-2/owl.theme.default.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap4.min.css">
     <!-- End plugin css for this page -->
     <!-- inject:css -->
@@ -22,6 +17,12 @@
     <link rel="stylesheet" href="assets/css/style.css">
     <!-- End layout styles -->
     <link rel="shortcut icon" href="assets/images/favicon.png" />
+    <style>
+      .scroll-container {
+        max-height: 700px; /* Set the maximum height for the container */
+        overflow-y: auto; /* Enable vertical scrolling when content overflows */
+      }
+    </style>
   </head>
   <body class="sidebar-icon-only">
     <div id="app" class="container-scroller">
@@ -40,8 +41,8 @@
                   <span class="count bg-success"></span>
                 </div>
                 <div class="profile-name">
-                  <h5 class="mb-0 font-weight-normal">Admin</h5>
-                  <span>Gold Member</span>
+                  <h5 class="mb-0 font-weight-normal"><span id="username_side"></span></h5>
+                  <span id="role"></span>
                 </div>
               </div>
               <a href="#" id="profile-dropdown" data-toggle="dropdown"><i class="mdi mdi-dots-vertical"></i></a>
@@ -84,7 +85,7 @@
           <li class="nav-item nav-category">
             <span class="nav-link">Navigation</span>
           </li>
-          <li class="nav-item menu-items">
+          <li class="nav-item menu-items" id="div-router-list">
             <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
               <span class="menu-icon">
                 <i class="mdi mdi-laptop"></i>
@@ -98,7 +99,7 @@
               </ul>
             </div>
           </li>
-          <li class="nav-item menu-items">
+          <li class="nav-item menu-items" id="div-dashboard">
             <a class="nav-link" href="home.html">
               <span class="menu-icon">
                 <i class="mdi mdi-speedometer"></i>
@@ -106,7 +107,15 @@
               <span class="menu-title">Dashboard</span>
             </a>
           </li>
-          <li class="nav-item menu-items">
+          <li class="nav-item menu-items" id="div-router">
+            <a class="nav-link" href="router.html">
+              <span class="menu-icon">
+                <i class="mdi mdi-account-group"></i>
+              </span>
+              <span class="menu-title">Manajemen Router</span>
+            </a>
+          </li>
+          <li class="nav-item menu-items" id="div-analytics">
             <a class="nav-link" href="analytics.html">
               <span class="menu-icon">
                 <i class="mdi mdi-file-document-box"></i>
@@ -114,7 +123,7 @@
               <span class="menu-title">Analytics</span>
             </a>
           </li>
-          <li class="nav-item menu-items">
+          <li class="nav-item menu-items" id="div-helpdesk">
             <a class="nav-link" href="helpdesk.html">
               <span class="menu-icon">
                 <i class="mdi mdi-account-edit"></i>
@@ -122,7 +131,7 @@
               <span class="menu-title">Helpdesk</span>
             </a>
           </li>
-          <li class="nav-item menu-items">
+          <li class="nav-item menu-items" id="div-manajemen-user">
             <a class="nav-link" href="users.html">
               <span class="menu-icon">
                 <i class="mdi mdi-account-group"></i>
@@ -148,7 +157,7 @@
                 <a class="nav-link" id="profileDropdown" href="#" data-toggle="dropdown">
                   <div class="navbar-profile">
                     <img class="img-xs rounded-circle" src="assets/images/faces/face15.jpg" alt="">
-                    <p class="mb-0 d-none d-sm-block navbar-profile-name">Administrator</p>
+                    <p class="mb-0 d-none d-sm-block navbar-profile-name"><span id="username"></span></p>
                     <i class="mdi mdi-menu-down d-none d-sm-block"></i>
                   </div>
                 </a>
@@ -338,25 +347,7 @@
             </div>
             <div class="row">
               <div class="col-md-4 grid-margin">
-                <div class="card mb-3">
-                  <!-- <div class="card-body"> -->
-                    <div id="container1"></div>
-                  <!-- </div> -->
-                </div>
-                <div class="card mb-3">
-                  <!-- <div class="card-body"> -->
-                    <div id="container2"></div>
-                  <!-- </div> -->
-                </div>
-                <div class="card mb-3">
-                  <!-- <div class="card-body"> -->
-                    <div id="container3"></div>
-                  <!-- </div> -->
-                </div>
-                <div class="card mb-3">
-                  <!-- <div class="card-body"> -->
-                    <div id="container4"></div>
-                  <!-- </div> -->
+                <div class="scroll-container" id="cardContainer">
                 </div>
               </div>
               <div class="col-md-8 grid-margin">
@@ -446,6 +437,10 @@
                 </div>
               </div>
             </div>
+
+            <div class="row" id="chartId">
+
+            </div>
           </div>
           <!-- content-wrapper ends -->
           <!-- partial:partials/_footer.html -->
@@ -465,19 +460,13 @@
     <!-- plugins:js -->
     <script src="assets/vendors/js/vendor.bundle.base.js"></script>
     <!-- endinject -->
-    <!-- Plugin js for this page -->
-    <script src="assets/vendors/chart.js/Chart.min.js"></script>
-    <script src="assets/vendors/progressbar.js/progressbar.min.js"></script>
-    <script src="assets/vendors/jvectormap/jquery-jvectormap.min.js"></script>
-    <script src="assets/vendors/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
-    <script src="assets/vendors/owl-carousel-2/owl.carousel.min.js"></script>
     <!-- End plugin js for this page -->
     <!-- inject:js -->
-    <script src="assets/js/off-canvas.js"></script>
+    <!-- <script src="assets/js/off-canvas.js"></script> -->
     <script src="assets/js/hoverable-collapse.js"></script>
     <script src="assets/js/misc.js"></script>
-    <script src="assets/js/settings.js"></script>
-    <script src="assets/js/todolist.js"></script>
+    <!-- <script src="assets/js/settings.js"></script> -->
+    <!-- <script src="assets/js/todolist.js"></script> -->
     <!-- endinject -->
     <!-- Custom js for this page -->
     <script src="assets/js/dashboard.js"></script>
@@ -487,14 +476,49 @@
     <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap4.min.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
-    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!-- <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> -->
     <script>
       $(document).ready(function () {
-        // const API_URL = 'http://localhost:3000/api'
-        // const socket = io('http://localhost:3000/');
-        const API_URL = 'http://103.84.206.103:90/api'
-        const socket = io('https://api-mikrotik.linkdemo.web.id');
+        const API_URL = 'http://localhost:3000/api'
+        const socket = io('http://localhost:3000/');
+        // const API_URL = 'http://103.84.206.103:90/api'
+        // const socket = io('https://api-mikrotik.linkdemo.web.id');
+
+        let username = localStorage.getItem('username')
+        let name = localStorage.getItem('name')
+        let role = localStorage.getItem('role')
+        let user_id = localStorage.getItem('user_id')
+
+        if (role == 'super admin') {
+
+        }
+
+        if (role == 'admin') {
+        
+        }
+
+        if (role == 'teknisi') {
+          $("#div-router-list").hide()
+          $("#div-dashboard").show()
+          $("#div-router").hide()
+          $("#div-analytics").show()
+          $("#div-manajemen-user").hide()
+          $("#div-helpdesk").show()
+        }
+
+        if (role == 'satker') {
+          $("#div-router-list").hide()
+          $("#div-dashboard").show()
+          $("#div-router").hide()
+          $("#div-analytics").show()
+          $("#div-manajemen-user").hide()
+          $("#div-helpdesk").show()
+        }
+
+        $("#username").html(name)
+        $("#username_side").html(name)
+        $("#role").html(role)
 
         /* Get Router */
         $.ajax({
@@ -521,6 +545,7 @@
 
             getSystem(uuid)
             getDhcpServer(uuid)
+            getInterfaceSession(uuid)
 
             let routers = ''
             data.items.forEach((value, index) => {
@@ -653,59 +678,185 @@
           });
         }
 
+        function sendTelegram(interface, speed) {
+          $.ajax({
+            type: "POST",
+            url: API_URL+"/dashboard/send-telegram",
+            data: {
+              interface: interface,
+              speed: speed,
+            },
+            dataType: "JSON",
+            success: function (response) {
+              console.log(response);
+            }
+          });
+        }
+
+        function getInterfaceSession(uuid) {
+          $.ajax({
+            type: "GET",
+            url: API_URL+"/dashboard/get-interfaces?uuid="+uuid,
+            dataType: "JSON",
+            success: function (response1) {
+              $.ajax({
+                type: "GET",
+                url: API_URL+"/dashboard/start",
+                success: function (response2) {
+                  //
+                  let data = response1
+                  localStorage.setItem('dataInterface', JSON.stringify(data));
+                  localStorage.setItem('defaultInterface', data[0]);
+                  let dataInterface = localStorage.getItem('dataInterface');
+                  let interfaces = localStorage.getItem('dataInterface');
+                  
+                  if (dataInterface) {
+                    dataInterface = JSON.parse(localStorage.getItem('dataInterface'));
+                    interfaces = JSON.parse(localStorage.getItem('dataInterface'));
+
+                    let dataHtml = ""
+                    interfaces.forEach((value, index) => {
+                      dataHtml += `<div class="card mb-2">
+                        <div id="${value}"></div>
+                      </div>`
+                    })
+                    $("#cardContainer").html(dataHtml)
+
+                    dataInterface.forEach((value, index) => {
+                      let chartOptions1 = {
+                        credits: {
+                          enabled: false
+                        },
+                        legend: {
+                          itemStyle: {
+                            color: 'white',
+                          },
+                        },
+                        chart: {
+                          type: 'area',
+                          backgroundColor: 'rgba(0, 0, 0, 0)',
+                          // width: 250,
+                          height: 200,
+                        },
+                        title: {
+                          text: value,
+                          style: {
+                            color: 'white',
+                            fontSize: '14px',
+                          }
+                        },  
+                        xAxis: {
+                          categories: [],
+                          labels:
+                          {
+                            enabled: false
+                          }
+                        },
+                        yAxis: {
+                          title: {
+                            text: '',
+                            style: {
+                              color: 'white'
+                            }
+                          },
+                          labels: {
+                            style: {
+                              color: 'white'
+                            }
+                          },
+                        },
+                        plotOptions: {
+                          area: {
+                            fillOpacity: 0.5,
+                            marker: {
+                              enabled: false,
+                            },
+                          },
+                        },
+                        series: [
+                          {
+                            name: 'Upload',
+                            data: [],
+                            color: '#0766AD',
+                            fillOpacity: 0.5,
+                          },
+                          {
+                            name: 'Download',
+                            data: [],
+                            color: '#BE3144',
+                            fillOpacity: 0.5,
+                          }
+                        ]
+                      }
+
+                      let initChart1 = Highcharts.chart(value, chartOptions1);
+
+                      socket.on(value, function (data) {
+                        const uploadData = formatBytes(data.upload);
+                        const downloadData = formatBytes(data.download);
+
+                        let uploadInterval
+                        let downloadInterval
+
+                        if (uploadData < 10) {
+                          uploadInterval = setInterval(() => {
+                            // sendTelegram(value, uploadData)
+                          }, 5000);
+                        } else {
+                          clearInterval(uploadInterval)
+                        }
+
+                        if (downloadData < 10) {
+                          downloadInterval = setInterval(() => {
+                            // sendTelegram(value, downloadData)
+                          }, 5000);
+                        } else {
+                          clearInterval(downloadInterval)
+                        }
+                        
+                        // Format data with two decimal places
+                        chartOptions1.series[0].data.push(uploadData);
+                        chartOptions1.series[1].data.push(downloadData);
+
+                        if (chartOptions1.series[0].data.length > 5) {
+                          chartOptions1.series[0].data.shift();
+                          chartOptions1.series[1].data.shift();
+                        }
+
+                        chartOptions1.xAxis.categories.push(new Date().toLocaleTimeString());
+                        if (chartOptions1.xAxis.categories.length > 5) {
+                          chartOptions1.xAxis.categories.shift();
+                        }
+
+                        if (initChart1) {
+                          initChart1.series[0].setData(chartOptions1.series[0].data, false);
+                          initChart1.series[1].setData(chartOptions1.series[1].data, false);
+                          initChart1.xAxis[0].setCategories(chartOptions1.xAxis.categories, false);
+                          initChart1.redraw();
+                        }
+                      })
+                    })
+                  }
+                  //
+                }
+              });
+            }
+          });
+        }
+
         function formatBytes(bytes) {
           let kilobyte = bytes / 1024;
           return parseInt(kilobyte)
         }
 
-        socket.on('ether1', function (data) {
-          data.data.forEach((value, index) => {
-            let obj = value
-            const uploadData = formatBytes(obj['tx-bits-per-second']);
-            const downloadData = formatBytes(obj['rx-bits-per-second']);
-            updateData(uploadData, downloadData);
-            $("#download").html(downloadData)
-            $("#upload").html(uploadData)
-          })
-
-          console.log(data);
-        });
-
-        socket.on('ether2', function (data) {
-          data.data.forEach((value, index) => {
-            let obj = value
-            const uploadData = formatBytes(obj['tx-bits-per-second']);
-            const downloadData = formatBytes(obj['rx-bits-per-second']);
-            updateData1(uploadData, downloadData);
-          })
-        });
-
-        socket.on('ether3', function (data) {
-          data.data.forEach((value, index) => {
-            let obj = value
-            const uploadData = formatBytes(obj['tx-bits-per-second']);
-            const downloadData = formatBytes(obj['rx-bits-per-second']);
-            updateData2(uploadData, downloadData);
-          })
-        });
-
-        socket.on('ether4', function (data) {
-          data.data.forEach((value, index) => {
-            let obj = value
-            const uploadData = formatBytes(obj['tx-bits-per-second']);
-            const downloadData = formatBytes(obj['rx-bits-per-second']);
-            updateData3(uploadData, downloadData);
-          })
-        });
-
-        socket.on('ether5', function (data) {
-          data.data.forEach((value, index) => {
-            let obj = value
-            const uploadData = formatBytes(obj['tx-bits-per-second']);
-            const downloadData = formatBytes(obj['rx-bits-per-second']);
-            updateData4(uploadData, downloadData);
-          })
-        });
+        let defaultInterface = localStorage.getItem('defaultInterface');
+        socket.on(defaultInterface, function (data) {
+          const uploadData = formatBytes(data.upload);
+          const downloadData = formatBytes(data.download);
+          updateData(uploadData, downloadData);
+          $("#download").html(downloadData)
+          $("#upload").html(uploadData)
+        })
 
         $(document).on("click", ".routers", function(e) {
           let uuid = $(this).data('router')
@@ -739,6 +890,8 @@
 
               getSystem(uuid)
               getDhcpServer(uuid)
+              getInterfaceSession(uuid)
+
               $("#active-router").html(`(${name})`)
             } else {
               swal("Aksi dibatalkan!");
@@ -813,276 +966,8 @@
           ]
         }
 
-        let chartOptions1 = {
-          credits: {
-            enabled: false
-          },
-          legend: {
-            itemStyle: {
-              color: 'white',
-            },
-          },
-          chart: {
-            type: 'area',
-            backgroundColor: 'rgba(0, 0, 0, 0)',
-            // width: 250,
-            height: 200,
-          },
-          title: {
-            text: 'Ether 2',
-            style: {
-              color: 'white',
-              fontSize: '14px',
-            }
-          },  
-          xAxis: {
-            categories: [],
-            labels:
-            {
-              enabled: false
-            }
-          },
-          yAxis: {
-            title: {
-              text: '',
-              style: {
-                color: 'white'
-              }
-            },
-            labels: {
-              style: {
-                color: 'white'
-              }
-            },
-          },
-          plotOptions: {
-            area: {
-              fillOpacity: 0.5,
-              marker: {
-                enabled: false,
-              },
-            },
-          },
-          series: [
-            {
-              name: 'Upload',
-              data: [],
-              color: '#0766AD',
-              fillOpacity: 0.5,
-            },
-            {
-              name: 'Download',
-              data: [],
-              color: '#BE3144',
-              fillOpacity: 0.5,
-            }
-          ]
-        }
-
-        let chartOptions2 = {
-          credits: {
-            enabled: false
-          },
-          legend: {
-            itemStyle: {
-              color: 'white',
-            },
-          },
-          chart: {
-            type: 'area',
-            backgroundColor: 'rgba(0, 0, 0, 0)',
-            // width: 250,
-            height: 200,
-          },
-          title: {
-            text: 'Ether 3',
-            style: {
-              color: 'white',
-              fontSize: '14px',
-            }
-          },  
-          xAxis: {
-            categories: [],
-            labels:
-            {
-              enabled: false
-            }
-          },
-          yAxis: {
-            title: {
-              text: '',
-              style: {
-                color: 'white'
-              }
-            },
-            labels: {
-              style: {
-                color: 'white'
-              }
-            },
-          },
-          plotOptions: {
-            area: {
-              fillOpacity: 0.5,
-              marker: {
-                enabled: false,
-              },
-            },
-          },
-          series: [
-            {
-              name: 'Upload',
-              data: [],
-              color: '#0766AD',
-              fillOpacity: 0.5,
-            },
-            {
-              name: 'Download',
-              data: [],
-              color: '#BE3144',
-              fillOpacity: 0.5,
-            }
-          ]
-        }
-
-        let chartOptions3 = {
-          credits: {
-            enabled: false
-          },
-          legend: {
-            itemStyle: {
-              color: 'white',
-            },
-          },
-          chart: {
-            type: 'area',
-            backgroundColor: 'rgba(0, 0, 0, 0)',
-            // width: 250,
-            height: 200,
-          },
-          title: {
-            text: 'Ether 4',
-            style: {
-              color: 'white',
-              fontSize: '14px',
-            }
-          },  
-          xAxis: {
-            categories: [],
-            labels:
-            {
-              enabled: false
-            }
-          },
-          yAxis: {
-            title: {
-              text: '',
-              style: {
-                color: 'white'
-              }
-            },
-            labels: {
-              style: {
-                color: 'white'
-              }
-            },
-          },
-          plotOptions: {
-            area: {
-              fillOpacity: 0.5,
-              marker: {
-                enabled: false,
-              },
-            },
-          },
-          series: [
-            {
-              name: 'Upload',
-              data: [],
-              color: '#0766AD',
-              fillOpacity: 0.5,
-            },
-            {
-              name: 'Download',
-              data: [],
-              color: '#BE3144',
-              fillOpacity: 0.5,
-            }
-          ]
-        }
-
-        let chartOptions4 = {
-          credits: {
-            enabled: false
-          },
-          legend: {
-            itemStyle: {
-              color: 'white',
-            },
-          },
-          chart: {
-            type: 'area',
-            backgroundColor: 'rgba(0, 0, 0, 0)',
-            // width: 250,
-            height: 200,
-          },
-          title: {
-            text: 'Ether 5',
-            style: {
-              color: 'white',
-              fontSize: '14px',
-            }
-          },  
-          xAxis: {
-            categories: [],
-            labels:
-            {
-              enabled: false
-            }
-          },
-          yAxis: {
-            title: {
-              text: '',
-              style: {
-                color: 'white'
-              }
-            },
-            labels: {
-              style: {
-                color: 'white'
-              }
-            },
-          },
-          plotOptions: {
-            area: {
-              fillOpacity: 0.5,
-              marker: {
-                enabled: false,
-              },
-            },
-          },
-          series: [
-            {
-              name: 'Upload',
-              data: [],
-              color: '#0766AD',
-              fillOpacity: 0.5,
-            },
-            {
-              name: 'Download',
-              data: [],
-              color: '#BE3144',
-              fillOpacity: 0.5,
-            }
-          ]
-        }
-
         let initChart = Highcharts.chart('container', chartOptions);
-        let initChart1 = Highcharts.chart('container1', chartOptions1);
-        let initChart2 = Highcharts.chart('container2', chartOptions2);
-        let initChart3 = Highcharts.chart('container3', chartOptions3);
-        let initChart4 = Highcharts.chart('container4', chartOptions4);
-        // let initChart4 = Highcharts.chart('container4', chartOptions2);
+        
 
         function updateData(uploadData, downloadData) {
           if (uploadData !== undefined && downloadData !== undefined) {
@@ -1105,126 +990,6 @@
               initChart.series[1].setData(chartOptions.series[1].data, false);
               initChart.xAxis[0].setCategories(chartOptions.xAxis.categories, false);
               initChart.redraw();
-
-              // initChart1.series[0].setData(chartOptions.series[0].data, false);
-              // initChart1.series[1].setData(chartOptions.series[1].data, false);
-              // initChart1.xAxis[0].setCategories(chartOptions.xAxis.categories, false);
-              // initChart1.redraw();
-
-              // initChart2.series[0].setData(chartOptions.series[0].data, false);
-              // initChart2.series[1].setData(chartOptions.series[1].data, false);
-              // initChart2.xAxis[0].setCategories(chartOptions.xAxis.categories, false);
-              // initChart2.redraw();
-
-              // initChart3.series[0].setData(chartOptions.series[0].data, false);
-              // initChart3.series[1].setData(chartOptions.series[1].data, false);
-              // initChart3.xAxis[0].setCategories(chartOptions.xAxis.categories, false);
-              // initChart3.redraw();
-
-              // initChart4.series[0].setData(chartOptions.series[0].data, false);
-              // initChart4.series[1].setData(chartOptions.series[1].data, false);
-              // initChart4.xAxis[0].setCategories(chartOptions.xAxis.categories, false);
-              // initChart4.redraw();
-            }
-          }
-        }
-
-        function updateData1(uploadData, downloadData) {
-          if (uploadData !== undefined && downloadData !== undefined) {
-            // Format data with two decimal places
-            chartOptions1.series[0].data.push(uploadData);
-            chartOptions1.series[1].data.push(downloadData);
-
-            if (chartOptions1.series[0].data.length > 5) {
-              chartOptions1.series[0].data.shift();
-              chartOptions1.series[1].data.shift();
-            }
-
-            chartOptions1.xAxis.categories.push(new Date().toLocaleTimeString());
-            if (chartOptions1.xAxis.categories.length > 5) {
-              chartOptions1.xAxis.categories.shift();
-            }
-
-            if (initChart1) {
-              initChart1.series[0].setData(chartOptions1.series[0].data, false);
-              initChart1.series[1].setData(chartOptions1.series[1].data, false);
-              initChart1.xAxis[0].setCategories(chartOptions1.xAxis.categories, false);
-              initChart1.redraw();
-            }
-          }
-        }
-
-        function updateData2(uploadData, downloadData) {
-          if (uploadData !== undefined && downloadData !== undefined) {
-            // Format data with two decimal places
-            chartOptions2.series[0].data.push(uploadData);
-            chartOptions2.series[1].data.push(downloadData);
-
-            if (chartOptions2.series[0].data.length > 5) {
-              chartOptions2.series[0].data.shift();
-              chartOptions2.series[1].data.shift();
-            }
-
-            chartOptions2.xAxis.categories.push(new Date().toLocaleTimeString());
-            if (chartOptions2.xAxis.categories.length > 5) {
-              chartOptions2.xAxis.categories.shift();
-            }
-
-            if (initChart2) {
-              initChart2.series[0].setData(chartOptions2.series[0].data, false);
-              initChart2.series[1].setData(chartOptions2.series[1].data, false);
-              initChart2.xAxis[0].setCategories(chartOptions2.xAxis.categories, false);
-              initChart2.redraw();
-            }
-          }
-        }
-
-        function updateData3(uploadData, downloadData) {
-          if (uploadData !== undefined && downloadData !== undefined) {
-            // Format data with two decimal places
-            chartOptions3.series[0].data.push(uploadData);
-            chartOptions3.series[1].data.push(downloadData);
-
-            if (chartOptions3.series[0].data.length > 5) {
-              chartOptions3.series[0].data.shift();
-              chartOptions3.series[1].data.shift();
-            }
-
-            chartOptions3.xAxis.categories.push(new Date().toLocaleTimeString());
-            if (chartOptions3.xAxis.categories.length > 5) {
-              chartOptions3.xAxis.categories.shift();
-            }
-
-            if (initChart3) {
-              initChart3.series[0].setData(chartOptions3.series[0].data, false);
-              initChart3.series[1].setData(chartOptions3.series[1].data, false);
-              initChart3.xAxis[0].setCategories(chartOptions3.xAxis.categories, false);
-              initChart3.redraw();
-            }
-          }
-        }
-
-        function updateData4(uploadData, downloadData) {
-          if (uploadData !== undefined && downloadData !== undefined) {
-            // Format data with two decimal places
-            chartOptions4.series[0].data.push(uploadData);
-            chartOptions4.series[1].data.push(downloadData);
-
-            if (chartOptions4.series[0].data.length > 5) {
-              chartOptions4.series[0].data.shift();
-              chartOptions4.series[1].data.shift();
-            }
-
-            chartOptions4.xAxis.categories.push(new Date().toLocaleTimeString());
-            if (chartOptions4.xAxis.categories.length > 5) {
-              chartOptions4.xAxis.categories.shift();
-            }
-
-            if (initChart4) {
-              initChart4.series[0].setData(chartOptions4.series[0].data, false);
-              initChart4.series[1].setData(chartOptions4.series[1].data, false);
-              initChart4.xAxis[0].setCategories(chartOptions4.xAxis.categories, false);
-              initChart4.redraw();
             }
           }
         }

@@ -42,8 +42,8 @@
                   <span class="count bg-success"></span>
                 </div>
                 <div class="profile-name">
-                  <h5 class="mb-0 font-weight-normal">Henry Klein</h5>
-                  <span>Gold Member</span>
+                  <h5 class="mb-0 font-weight-normal" id="username_side"></h5>
+                  <span id="role"></span>
                 </div>
               </div>
               <a href="#" id="profile-dropdown" data-toggle="dropdown"><i class="mdi mdi-dots-vertical"></i></a>
@@ -86,7 +86,7 @@
           <li class="nav-item nav-category">
             <span class="nav-link">Navigation</span>
           </li>
-          <li class="nav-item menu-items">
+          <li class="nav-item menu-items" id="div-router-list">
             <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
               <span class="menu-icon">
                 <i class="mdi mdi-laptop"></i>
@@ -100,7 +100,7 @@
               </ul>
             </div>
           </li>
-          <li class="nav-item menu-items">
+          <li class="nav-item menu-items" id="div-dashboard">
             <a class="nav-link" href="home.html">
               <span class="menu-icon">
                 <i class="mdi mdi-speedometer"></i>
@@ -108,7 +108,15 @@
               <span class="menu-title">Dashboard</span>
             </a>
           </li>
-          <li class="nav-item menu-items">
+          <li class="nav-item menu-items" id="div-router">
+            <a class="nav-link" href="router.html">
+              <span class="menu-icon">
+                <i class="mdi mdi-account-group"></i>
+              </span>
+              <span class="menu-title">Manajemen Router</span>
+            </a>
+          </li>
+          <li class="nav-item menu-items" id="div-analytics">
             <a class="nav-link" href="analytics.html">
               <span class="menu-icon">
                 <i class="mdi mdi-file-document-box"></i>
@@ -116,7 +124,7 @@
               <span class="menu-title">Analytics</span>
             </a>
           </li>
-          <li class="nav-item menu-items">
+          <li class="nav-item menu-items" id="div-helpdesk">
             <a class="nav-link" href="helpdesk.html">
               <span class="menu-icon">
                 <i class="mdi mdi-account-edit"></i>
@@ -124,7 +132,7 @@
               <span class="menu-title">Helpdesk</span>
             </a>
           </li>
-          <li class="nav-item menu-items">
+          <li class="nav-item menu-items" id="div-manajemen-user">
             <a class="nav-link" href="users.html">
               <span class="menu-icon">
                 <i class="mdi mdi-account-group"></i>
@@ -150,7 +158,7 @@
                 <a class="nav-link" id="profileDropdown" href="#" data-toggle="dropdown">
                   <div class="navbar-profile">
                     <img class="img-xs rounded-circle" src="assets/images/faces/face15.jpg" alt="">
-                    <p class="mb-0 d-none d-sm-block navbar-profile-name">Administrator</p>
+                    <p class="mb-0 d-none d-sm-block navbar-profile-name"><span id="username"></span></p>
                     <i class="mdi mdi-menu-down d-none d-sm-block"></i>
                   </div>
                 </a>
@@ -182,27 +190,12 @@
         <!-- partial -->
         <div class="main-panel">
           <div class="content-wrapper">
-            <!-- <div class="row mb-3">
-              <div class="col-md-12">
-                <div class="d-flex justify-content-between align-items-center">
-                  <input type="date" name="date" id="" class="form-control col-4">
-                  <input type="date" name="date" id="" class="form-control col-4">
-
-                  <a href="javascript:void(0)" class="btn btn-danger ml-2"><i class="fas fa-download"></i> DOWNLOAD DATA</a>
-                </div>
-              </div>
-            </div> -->
             <div class="row">
               <div class="col-md-8 grid-margin">
                 <div class="card">
                     <div id="container"></div>
                 </div>
               </div>
-              <!-- <div class="col-md-4 grid-margin">
-                <div class="card">
-                  <div id="container"></div>
-                </div>
-              </div> -->
               <div class="col-md-4 grid-margin">
                 <div class="card">
                   <div class="card-header">Data Report</div>
@@ -467,12 +460,8 @@
     <!-- endinject -->
     <!-- Custom js for this page -->
     <script src="assets/js/dashboard.js"></script>
-    <!-- <script src="https://code.highcharts.com/highcharts.js"></script> -->
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://code.highcharts.com/stock/modules/stock.js"></script>
-    <!-- <script src="https://code.highcharts.com/modules/series-label.js"></script> -->
-    <!-- <script src="https://code.highcharts.com/modules/exporting.js"></script>
-    <script src="https://code.highcharts.com/modules/export-data.js"></script> -->
     <script src="https://code.highcharts.com/modules/accessibility.js"></script>
     <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap4.min.js"></script>
@@ -487,11 +476,46 @@
         const API_URL = 'http://103.84.206.103:90/api'
         const socket = io('https://api-mikrotik.linkdemo.web.id');
 
+        let username = localStorage.getItem('username')
+        let name = localStorage.getItem('name')
+        let role = localStorage.getItem('role')
+        let user_id = localStorage.getItem('user_id')
+
+        if (role == 'super admin') {
+
+        }
+
+        if (role == 'admin') {
+
+        }
+
+        if (role == 'teknisi') {
+          $("#div-router-list").hide()
+          $("#div-dashboard").show()
+          $("#div-router").hide()
+          $("#div-analytics").show()
+          $("#div-manajemen-user").hide()
+          $("#div-helpdesk").show()
+        }
+
+        if (role == 'satker') {
+          $("#div-router-list").hide()
+          $("#div-dashboard").show()
+          $("#div-router").hide()
+          $("#div-analytics").show()
+          $("#div-manajemen-user").hide()
+          $("#div-helpdesk").show()
+        }
+
         socket.on('data', function (data) {
           console.log(data);
         });
 
         $('#dateRangePicker').daterangepicker();
+
+        $("#username").html(name)
+        $("#username_side").html(name)
+        $("#role").html(role)
 
         let chartOptions = {
           credits: {

@@ -40,7 +40,7 @@
                   <span class="count bg-success"></span>
                 </div>
                 <div class="profile-name">
-                  <h5 class="mb-0 font-weight-normal">{{ message }}</h5>
+                  <h5 class="mb-0 font-weight-normal">Administrator</h5>
                   <span>Gold Member</span>
                 </div>
               </div>
@@ -201,36 +201,42 @@
           <div class="content-wrapper">
             <!-- // -->
             <!-- Modal -->
-            <div class="modal fade" id="userModal" tabindex="-1" aria-labelledby="userModalLabel" aria-hidden="true">
+            <div class="modal fade" id="routerModal" tabindex="-1" aria-labelledby="routerModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="userModalLabel">Edit User</h5>
+                    <h5 class="modal-title" id="routerModalLabel">Edit Router</h5>
                     <button type="button" class="close text-light" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form id="formUser">
+                    <form id="formRouter">
                         <div class="form-group">
-                            <label for="">Username:</label>
-                            <input type="hidden" id="id_edit" name="id" class="form-control">
-                            <input type="text" id="username_edit" name="username" class="form-control">
+                            <label for="">Uuid:</label>
+                            <input type="text" id="uuid_edit" name="uuid" class="form-control">
                         </div>
                         <div class="form-group">
-                          <label for="">Full Name:</label>
+                          <label for="">Name:</label>
                           <input type="text" id="name_edit" name="name" class="form-control">
-                      </div>
+                        </div>
                         <div class="form-group">
-                            <label for="">Role:</label>
-                            <select class="form-control" name="role_id" id="role_id_edit">
-                              <option value="1">Admin</option>
-                              <option value="2">User</option>
-                            </select>
+                            <label for="">Ip Address:</label>
+                            <input type="text" id="ipaddress_edit" name="ipaddress" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="">User:</label>
+                            <input type="text" id="user_edit" name="user" class="form-control">
                         </div>
                         <div class="form-group">
                             <label for="">Password:</label>
-                            <input type="password" id="password_edit" name="password" class="form-control">
+                            <input type="password" id="pass_edit" name="pass" class="form-control">
+                            <input type="checkbox" name="" id="show-password" class="mt-2"> Show Password
+                        </div>
+                        <div class="form-group">
+                            <label for="">Port:</label>
+                            <input type="text" id="portt_edit" name="portt" class="form-control">
+                            <input type="hidden" value="Active" id="status" name="status" class="form-control">
                         </div>
                 </div>
                 <div class="modal-footer">
@@ -247,31 +253,37 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="userCreateModalLabel">Add User</h5>
+                    <h5 class="modal-title" id="userCreateModalLabel">Add Router</h5>
                     <button type="button" class="close text-light" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form id="formUserCretae">
+                    <form id="formRouterCreate">
                         <div class="form-group">
-                            <label for="">Username:</label>
-                            <input type="text" id="username" name="username" class="form-control">
+                            <label for="">Uuid:</label>
+                            <input type="text" id="uuid" name="uuid" class="form-control">
                         </div>
                         <div class="form-group">
-                          <label for="">Full Name:</label>
+                          <label for="">Name:</label>
                           <input type="text" id="name" name="name" class="form-control">
-                      </div>
+                        </div>
                         <div class="form-group">
-                            <label for="">Role:</label>
-                            <select class="form-control" name="role_id" id="role_id">
-                              <option value="1">Admin</option>
-                              <option value="2">User</option>
-                            </select>
+                            <label for="">Ip Address:</label>
+                            <input type="text" id="ipaddress" name="ipaddress" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="">User:</label>
+                            <input type="text" id="user" name="user" class="form-control">
                         </div>
                         <div class="form-group">
                             <label for="">Password:</label>
-                            <input type="password" id="password" name="password" class="form-control">
+                            <input type="password" id="pass" name="pass" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="">Port:</label>
+                            <input type="text" id="portt" name="portt" class="form-control">
+                            <input type="hidden" value="Active" id="status" name="status" class="form-control">
                         </div>
                 </div>
                 <div class="modal-footer">
@@ -289,7 +301,7 @@
                   <div class="card-header">
                     <!-- Button trigger modal -->
                     <button type="button" class="btn btn-success" data-toggle="modal" data-target="#userCreateModal">
-                      Add User
+                      Add Router
                     </button>
                   </div>
                   <div class="card-body">
@@ -298,10 +310,12 @@
                       <table id="datatable" class="table table-striped table-bordered" style="width:100%">
                         <thead>
                             <tr>
-                              <th>Username</th>
-                              <th>Nama</th>
-                              <th>Role</th>
-                              <th>Action</th>
+                                <th>Name</th>
+                                <th>Uuid</th>
+                                <th>Host</th>
+                                <th>User</th>
+                                <th>Port</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -360,44 +374,48 @@
     <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <script>
-      const app = Vue.createApp({
-        data() {
-          return {
-            message: 'Hello, Vue.js!'
-          };
-        }
-      });
-
-      // Mount the Vue instance to the specified HTML element
-      app.mount('#app');
-    </script>
-    <script>
       $(document).ready(function () {
         const API_URL = 'http://localhost:3000/api'
         const socket = io('http://localhost:3000/');
         // const API_URL = 'http://103.84.206.103:90/api'
         // const socket = io('https://api-mikrotik.linkdemo.web.id');
 
-        /* Get Users */
+        $(document).on('click', '#show-password', function(e) {
+          // Get the password input element
+          var passwordInput = $("#pass_edit");
+
+          // Check if the type attribute is "password"
+          if (passwordInput.attr("type") === "password") {
+            // Change the type to "text" to show the password
+            passwordInput.attr("type", "text");
+          } else {
+            // Change the type back to "password" to hide the password
+            passwordInput.attr("type", "password");
+          }
+        });
+
+        /* Get Routers */
         $.ajax({
           type: "GET",
-          url: API_URL+"/dashboard/list-users",
+          url: API_URL+"/dashboard/get-router",
           dataType: "JSON",
           success: function (response) {
-            let data = response.data
+            let data = response.data.items
 
             var table = $('#datatable').DataTable();
 
             // Add data to the table
             for (var i = 0; i < data.length; i++) {
                 var rowData = data[i];
-                var editButton = '<button class="btn-edit btn btn-primary" data-id="' + rowData.id + '">Edit</button>';
-                var deleteButton = '<button class="btn-delete btn btn-danger" data-id="' + rowData.id + '">Delete</button>';
+                var editButton = '<button class="btn-edit btn btn-primary" data-id="' + rowData.uuid + '">Edit</button>';
+                var deleteButton = '<button class="btn-delete btn btn-danger" data-id="' + rowData.uuid + '">Delete</button>';
 
                 table.row.add([
-                    rowData.username,
                     rowData.name,
-                    rowData.role,
+                    rowData.uuid,
+                    rowData.ipaddress,
+                    rowData.user,
+                    rowData.port,
                     editButton + ' ' + deleteButton
                 ]).draw();
             }
@@ -442,16 +460,22 @@
 
           $.ajax({
             type: "GET",
-            url: API_URL+"/dashboard/edit-users/"+id,
+            url: API_URL+"/dashboard/get-router/",
             dataType: "JSON",
             success: function (response) {
-              let data = response.data
-              $("#id_edit").val(data.id)
-              $("#name_edit").val(data.name)
-              $("#username_edit").val(data.username)
-              $("#role_id_edit").val(data.role)
+                let items = response.data.items
+                const data = items.find(item => item.uuid === id);
+                data || null; // Return null if no match is found
 
-              $("#userModal").modal("show")
+                $("#uuid_edit").val(data.uuid);
+                $("#code_edit").val(data.code);
+                $("#name_edit").val(data.name);
+                $("#ipaddress_edit").val(data.ipaddress);
+                $("#user_edit").val(data.user);
+                $("#pass_edit").val(data.pass);
+                $("#portt_edit").val(data.port);
+
+                $("#routerModal").modal("show")
             }
           });
         })
@@ -470,7 +494,7 @@
             if (willDelete) {
               $.ajax({
                 type: "POST",
-                url: API_URL+"/dashboard/delete-users/"+id,
+                url: API_URL+"/dashboard/remove-router/"+id,
                 dataType: "JSON",
                 success: function (response) {
                   swal({
@@ -481,7 +505,7 @@
                   });
 
                   setTimeout(() => {
-                    document.location.href = "/users.html"
+                    document.location.href = "/router.html"
                   }, 1500);
                 }
               });
@@ -492,33 +516,36 @@
         })
 
         $(document).on("click", ".btn-save", function(e) {
-          $.ajax({
-            type: "POST",
-            url: API_URL+"/dashboard/create-users",
-            data: $("#formUserCretae").serialize(),
-            dataType: "JSON",
-            success: function (response) {
-              swal({
-                title: "Good job!",
-                text: `Data berhasil ditambah!`,
-                icon: "success",
-                button: "Aww yiss!",
-              });
+            e.preventDefault()
+              
+            $.ajax({
+                type: "POST",
+                url: API_URL+"/dashboard/add-router",
+                data: $("#formRouterCreate").serialize(),
+                dataType: "JSON",
+                success: function (response) {
+                swal({
+                    title: "Good job!",
+                    text: `Data berhasil ditambah!`,
+                    icon: "success",
+                    button: "Aww yiss!",
+                });
 
-              setTimeout(() => {
-                document.location.href = "/users.html"
-              }, 1500);
-            }
-          });
+                setTimeout(() => {
+                    document.location.href = "/router.html"
+                }, 1500);
+                }
+            });
         })
 
         $(document).on("click", ".btn-update", function(e) {
           let id = $("#id_edit").val()
+          e.preventDefault()
           
           $.ajax({
             type: "POST",
-            url: API_URL+"/dashboard/update-users/"+id,
-            data: $("#formUser").serialize(),
+            url: API_URL+"/dashboard/update-router",
+            data: $("#formRouter").serialize(),
             dataType: "JSON",
             success: function (response) {
               swal({
@@ -529,7 +556,7 @@
               });
 
               setTimeout(() => {
-                document.location.href = "/users.html"
+                document.location.href = "/router.html"
               }, 1500);
             }
           });

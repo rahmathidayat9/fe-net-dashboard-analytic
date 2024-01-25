@@ -85,7 +85,7 @@
           <li class="nav-item nav-category">
             <span class="nav-link">Navigation</span>
           </li>
-          <li class="nav-item menu-items">
+          <li class="nav-item menu-items" id="div-router-list">
             <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
               <span class="menu-icon">
                 <i class="mdi mdi-laptop"></i>
@@ -99,7 +99,7 @@
               </ul>
             </div>
           </li>
-          <li class="nav-item menu-items">
+          <li class="nav-item menu-items" id="div-dashboard">
             <a class="nav-link" href="home.html">
               <span class="menu-icon">
                 <i class="mdi mdi-speedometer"></i>
@@ -107,7 +107,15 @@
               <span class="menu-title">Dashboard</span>
             </a>
           </li>
-          <li class="nav-item menu-items">
+          <li class="nav-item menu-items" id="div-router">
+            <a class="nav-link" href="router.html">
+              <span class="menu-icon">
+                <i class="mdi mdi-account-group"></i>
+              </span>
+              <span class="menu-title">Manajemen Router</span>
+            </a>
+          </li>
+          <li class="nav-item menu-items" id="div-analytics">
             <a class="nav-link" href="analytics.html">
               <span class="menu-icon">
                 <i class="mdi mdi-file-document-box"></i>
@@ -115,7 +123,7 @@
               <span class="menu-title">Analytics</span>
             </a>
           </li>
-          <li class="nav-item menu-items">
+          <li class="nav-item menu-items" id="div-helpdesk">
             <a class="nav-link" href="helpdesk.html">
               <span class="menu-icon">
                 <i class="mdi mdi-account-edit"></i>
@@ -123,7 +131,7 @@
               <span class="menu-title">Helpdesk</span>
             </a>
           </li>
-          <li class="nav-item menu-items">
+          <li class="nav-item menu-items" id="div-manajemen-user">
             <a class="nav-link" href="users.html">
               <span class="menu-icon">
                 <i class="mdi mdi-account-group"></i>
@@ -149,7 +157,7 @@
                 <a class="nav-link" id="profileDropdown" href="#" data-toggle="dropdown">
                   <div class="navbar-profile">
                     <img class="img-xs rounded-circle" src="assets/images/faces/face15.jpg" alt="">
-                    <p class="mb-0 d-none d-sm-block navbar-profile-name">Administrator</p>
+                    <p class="mb-0 d-none d-sm-block navbar-profile-name"><span id="username"></span></p>
                     <i class="mdi mdi-menu-down d-none d-sm-block"></i>
                   </div>
                 </a>
@@ -198,34 +206,27 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="helpdeskModalLabel">#0000001</h5>
+                    <h5 class="modal-title" id="helpdeskModalLabel">Edit Ticket</h5>
                     <button type="button" class="close text-light" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form action="#" method="post">
-                        <div class="form-group">
-                            <label for="">Requested By:</label>
-                            <input type="text" value="Satker 1" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <label for="">Subject:</label>
-                            <input type="text" value="Jaringan Router mati" class="form-control">
-                        </div>
+                    <form id="formHelpdeskUpdate">
                         <div class="form-group">
                             <label for="">Detail:</label>
-                            <input type="text" value="Jaringan Router mati jam 10 sudah sering mati nyala" class="form-control">
+                            <input type="hidden" id="id_edit" name="id" value="" class="form-control">
+                            <textarea name="detail" id="detail_edit" class="form-control" cols="30" rows="3"></textarea>
                         </div>
                         <div class="form-group">
-                            <label for="">Notes:</label>
-                            <textarea name="" class="form-control" id="" cols="30" rows="5"></textarea>
+                            <label for="">Due Date:</label>
+                            <input type="date" name="due_date" class="form-control" id="due_date_edit">
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal">Finish</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Delete</button>
+                    <button type="submit" class="btn-update btn btn-primary">Update</button>
+                    <!-- <button type="button" class="btn btn-danger" data-dismiss="modal">Delete</button> -->
                 </div>
                 </div>
             </div>
@@ -242,29 +243,43 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form id="formHelpdeskCreate">
-                        <div class="form-group">
-                            <label for="">Ticket Number:</label>
-                            <input type="text" id="ticket_number" name="ticket_number" value="" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <label for="">Requested By:</label>
-                            <input type="text" id="user_id" name="user_id" value="" class="form-control">
-                        </div>
-                        <div class="form-group">
-                          <label for="">Due Date:</label>
-                          <input type="date" id="due_date" name="due_date" value="" class="form-control">
-                        </div>
-                        <div class="form-group">
-                          <label for="">Subject:</label>
-                          <input type="text" id="subject" name="subject" value="" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <label for="">Detail:</label>
-                            <textarea name="description" class="form-control" id="" cols="30" rows="5"></textarea>
-                        </div>
-                        
-                    </form>
+                  <form id="formHelpdeskCreate">
+                    <div class="form-group">
+                        <label for="">Requested By:</label>
+                        <input type="hidden" id="user_id" name="user_id" value="" class="form-control">
+                        <input type="text" id="user_name" name="username" value="" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="">Due Date:</label>
+                        <input type="date" id="due_date" name="due_date" value="" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="">Detail:</label>
+                        <textarea name="detail" id="detail" class="form-control" cols="30" rows="3">-</textarea>
+                    </div>
+                    <!-- <div id="form-admin">
+                      Admin Form
+                    </div>
+                    <div id="form-satker">
+                      Satker Form
+                    </div>
+                    <div id="form-teknisi">
+                      Teknisi Form
+                    </div> -->
+                    <!-- <div class="form-group">
+                      <label for="">Priority Level:</label>
+                      <select name="priority_id" class="form-control" id="priority_id">
+                        <option value="1">Level 1</option>
+                        <option value="2">Level 2</option>
+                        <option value="3">Level 3</option>
+                        <option value="4">Level 4</option>
+                      </select>
+                  </div> -->
+                    <!-- <div class="form-group">
+                        <label for="">Notes:</label>
+                        <textarea name="notes" id="note" class="form-control" cols="30" rows="5">-</textarea>
+                    </div> -->
+                </form>
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn-save btn btn-primary">Save</button>
@@ -273,6 +288,137 @@
             </div>
             </div>
             <!-- // -->
+
+            <!-- Modal -->
+            <div class="modal fade" id="priorityModal" tabindex="-1" aria-labelledby="priorityModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                  <div class="modal-content">
+                  <div class="modal-header">
+                      <h5 class="modal-title" id="priorityModalLabel">Set Priority Ticket</h5>
+                      <button type="button" class="close text-light" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                      </button>
+                  </div>
+                  <div class="modal-body">
+                    <form id="formHelpdeskPriority">
+                      <div class="form-group">
+                          <label for="">Requested By:</label>
+                          <input type="hidden" id="ticket_id" name="ticket_id" value="" class="form-control">
+                          <input type="hidden" id="user_id_priority" name="user_id" value="" class="form-control">
+                          <input type="text" id="user_name_priority" name="username" value="" class="form-control">
+                      </div>
+                      <div class="form-group">
+                          <label for="">Due Date:</label>
+                          <input type="date" id="due_date_priority" name="due_date" value="" class="form-control">
+                      </div>
+                      <div class="form-group">
+                          <label for="">Detail:</label>
+                          <textarea name="detail" id="detail_priority" class="form-control" cols="30" rows="3">-</textarea>
+                      </div>
+                      <div class="form-group">
+                        <label for="">Priority Level:</label>
+                        <select name="priority_id" class="form-control" id="priority_id">
+                          <option value="1">Level 1</option>
+                          <option value="2">Level 2</option>
+                          <option value="3">Level 3</option>
+                          <option value="4">Level 4</option>
+                        </select>
+                    </div>
+                      <!-- <div class="form-group">
+                          <label for="">Notes:</label>
+                          <textarea name="notes" id="note" class="form-control" cols="30" rows="5">-</textarea>
+                      </div> -->
+                  </form>
+                  </div>
+                  <div class="modal-footer">
+                      <button type="submit" class="btn-priority-save btn btn-primary">Save</button>
+                  </div>
+                  </div>
+              </div>
+              </div>
+              <!-- // -->
+
+              <!-- Modal -->
+            <div class="modal fade" id="logsModal" tabindex="-1" aria-labelledby="logsModalLabel" aria-hidden="true">
+              <div class="modal-dialog modal-lg">
+                  <div class="modal-content">
+                  <div class="modal-header">
+                      <h5 class="modal-title" id="logsModalLabel">Logs Ticket</h5>
+                      <button type="button" class="close text-light" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                      </button>
+                  </div>
+                  <div class="modal-body">
+                    <table class="table table-bordered">
+                      <thead>
+                        <tr>
+                          <th scope="col">Request By</th>
+                          <th scope="col">Created At</th>
+                          <th scope="col">Due Date</th>
+                          <th scope="col">Notes</th>
+                          <th scope="col">Done at</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <th scope="row" id="logs-by"></th>
+                          <td id="logs-created-at"></td>
+                          <td id="logs-due-date"></td>
+                          <td id="logs-notes"></td>
+                          <td id="logs-done-at"></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="modal-footer">
+                      <!-- <button type="submit" class="btn-priority-save btn btn-primary">Save</button> -->
+                  </div>
+                  </div>
+              </div>
+              </div>
+              <!-- // -->
+
+            <!-- Modal -->
+            <div class="modal fade" id="notesModal" tabindex="-1" aria-labelledby="notesModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                  <div class="modal-content">
+                  <div class="modal-header">
+                      <h5 class="modal-title" id="notesModalLabel">Set Notes Ticket</h5>
+                      <button type="button" class="close text-light" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                      </button>
+                  </div>
+                  <div class="modal-body">
+                    <form id="formHelpdeskNotes">
+                      <div class="form-group">
+                          <label for="">Requested By:</label>
+                          <input type="hidden" id="done_by" name="done_by" value="" class="form-control">
+                          <input type="hidden" id="ticket_id_notes" name="ticket_id_notes" value="" class="form-control">
+                          <input type="hidden" id="user_id_notes" name="user_id" value="" class="form-control">
+                          <input type="text" id="user_name_notes" name="username" value="" class="form-control">
+                      </div>
+                      <div class="form-group">
+                          <label for="">Due Date:</label>
+                          <input type="date" id="due_date_notes" name="due_date" value="" class="form-control">
+                      </div>
+                      <div class="form-group">
+                          <label for="">Detail:</label>
+                          <textarea name="detail" id="detail_notes" class="form-control" cols="30" rows="3">-</textarea>
+                      </div>
+                      <div class="form-group">
+                          <label for="">Notes:</label>
+                          <textarea name="notes" id="notes" class="form-control" cols="30" rows="5">-</textarea>
+                      </div>
+                  </form>
+                  </div>
+                  <div class="modal-footer">
+                      <button type="submit" class="btn-notes-save btn btn-primary">Save</button>
+                  </div>
+                  </div>
+              </div>
+              </div>
+              <!-- // -->
+
             <div class="row">
               <div class="col-xl-3 col-sm-6 grid-margin stretch-card">
                 <div class="card">
@@ -360,7 +506,7 @@
                 <div class="card">
                   <div class="card-header">
                     <!-- Button trigger modal -->
-                    <button type="button" class="btn btn-success btn-create" data-toggle="modal" data-target="#createHelpdeskModal">
+                    <button type="button" id="btn-satker" class="btn btn-satker btn-success btn-create" data-toggle="modal" data-target="#createHelpdeskModal">
                       Add Ticket
                     </button>
                   </div>
@@ -370,12 +516,12 @@
                       <table id="datatable" class="table table-striped table-bordered" style="width:100%">
                         <thead>
                             <tr>
-                              <th>Ticket Number</th>
                               <th>Request By</th>
+                              <th>Priority Level</th>
                               <th>Subject</th>
                               <th>Status</th>
-                              <th>Created Date</th>
                               <th>Due Date</th>
+                              <th>Created Date</th>
                               <th>Action</th>
                             </tr>
                         </thead>
@@ -451,10 +597,58 @@
     </script>
     <script>
       $(document).ready(function () {
-        // const API_URL = 'http://localhost:3000/api'
-        // const socket = io('http://localhost:3000/');
-        const API_URL = 'http://103.84.206.103:90/api'
-        const socket = io('https://api-mikrotik.linkdemo.web.id');
+        const API_URL = 'http://localhost:3000/api'
+        const socket = io('http://localhost:3000/');
+        
+        // const API_URL = 'http://103.84.206.103:90/api'
+        // const socket = io('https://api-mikrotik.linkdemo.web.id');
+
+        let username = localStorage.getItem('username')
+        let name = localStorage.getItem('name')
+        let role = localStorage.getItem('role')
+        let user_id = localStorage.getItem('user_id')
+
+        if (role == 'super admin') {
+          // $("#btn-satker").hide()
+        }
+
+        if (role == 'admin') {
+          // btn
+          // $("#btn-satker").hide()
+        }
+
+        if (role == 'teknisi') {
+          $("#div-router-list").hide()
+          $("#div-dashboard").show()
+          $("#div-router").hide()
+          $("#div-analytics").show()
+          $("#div-manajemen-user").hide()
+          $("#div-helpdesk").show()
+
+          // btn
+          $("#btn-satker").hide()
+        }
+
+        if (role == 'satker') {
+          $("#div-router-list").hide()
+          $("#div-dashboard").show()
+          $("#div-router").hide()
+          $("#div-analytics").show()
+          $("#div-manajemen-user").hide()
+          $("#div-helpdesk").show()
+
+          // form
+          $("#form-admin").hide()
+          $("#form-teknisi").hide()
+          $("#form-satker").show()
+
+          // btn
+          $("#btn-satker").show()
+        }
+
+        $("#username").html(name)
+        $("#username_side").html(name)
+        $("#role").html(role)
 
         /* Get Router */
         $.ajax({
@@ -515,56 +709,101 @@
           dataType: "JSON",
           success: function (response) {
             let data = response.data.data
-            $("#total_ticket").html(response.data.total_ticket)
-            $("#pending_ticket").html(response.data.pending_ticket)
-            $("#deleted_ticket").html(response.data.deleted_ticket)
-            $("#closed_ticket").html(response.data.closed_ticket)
+            $("#total_ticket").html(data.length)
+
+            // Initialize counters
+            let pendingCount = 0;
+            let closedCount = 0;
+            let deletedCount = 0;
+
+            // Iterate through the data
+            data.forEach(ticket => {
+                switch (ticket.status) {
+                    case "pending":
+                        pendingCount++;
+                        break;
+                    case "closed":
+                        closedCount++;
+                        break;
+                    case "deleted":
+                        deletedCount++;
+                        break;
+                    // Add more cases if you have other status types
+                }
+            });
+            $("#pending_ticket").html(pendingCount)
+            $("#deleted_ticket").html(closedCount)
+            $("#closed_ticket").html(deletedCount)
 
             var table = $('#datatable').DataTable();
 
             // Add data to the table
             for (var i = 0; i < data.length; i++) {
                 var rowData = data[i];
-                var editButton = '<button class="btn-edit btn btn-primary" data-id="' + rowData.code + '">Edit</button>';
-                var deleteButton = '<button class="btn-delete btn btn-danger" data-id="' + rowData.code + '">Delete</button>';
-                var status
+                let priorityButton = ''
+                let notesButton = ''
+                let logsButton = '<button class="btn-logs btn btn-danger" data-id="' + rowData.id + '">Logs</button>';
+                
+                var editButton = '<button class="btn-edit btn btn-primary" data-id="' + rowData.id + '">Edit</button>';
+                var deleteButton = '<button class="btn-delete btn btn-danger" data-id="' + rowData.id + '">Delete</button>';
+                var priority_level
 
-                if (rowData.status == "1") {
-                  status = "Closed"
+                if (role == "super admin" || role == "admin") {
+                  if (rowData.priority == null) {
+                    priorityButton = '<button class="btn-priority btn btn-success" data-id="' + rowData.id + '">Set Priority</button>';  
+                  } else {
+                    priorityButton = ''
+                  }
                 }
 
-                if (rowData.status == "2") {
-                  status = "Deleted"
+                if (role == "teknisi") {
+                  if (rowData.priority != null) {
+                    editButton = '<button class="btn-notes btn btn-success" data-id="' + rowData.id + '">Notes</button>';
+                  } else {
+                    editButton = '<button class="btn btn-danger">-</button>';
+                  }
                 }
 
-                if (rowData.status == "3") {
-                  status = "Pending"
+                if (rowData.notes != null && role != "teknisi") {
+                  notesButton = '<button class="btn-notes btn btn-success" data-id="' + rowData.id + '">Notes</button>'
+                }
+
+                if (rowData.priority == "Level 4") {
+                  priority_level = "<span class='badge badge-primary'>"+rowData.priority+"</span>"
+                }
+
+                if (rowData.priority == "Level 3") {
+                  priority_level = "<span class='badge badge-success'>"+rowData.priority+"</span>"
+                }
+
+                if (rowData.priority == "Level 2") {
+                  priority_level = "<span class='badge badge-warning'>"+rowData.priority+"</span>"
+                }
+
+                if (rowData.priority == "Level 1") {
+                  priority_level = "<span class='badge badge-danger'>"+rowData.priority+"</span>"
+                }
+
+                if (rowData.priority == null) {
+                  priority_level = "<span class='badge badge-danger'>Pending</span>"
                 }
 
                 table.row.add([
-                    rowData.code,
-                    rowData.full_name,
+                    rowData.username,
+                    priority_level,
                     rowData.description,
-                    status,
-                    formatDate(rowData.created_at),
+                    rowData.status,
                     rowData.due_date,
-                    editButton + ' ' + deleteButton
+                    formatDate(rowData.created_at),
+                    priorityButton + ' ' + editButton + ' ' + notesButton + ' ' + logsButton + ' ' + deleteButton
                 ]).draw();
             }
           }
         });
 
         $(document).on("click", ".btn-create", function(e) {
-          $.ajax({
-            type: "GET",
-            url: API_URL+"/dashboard/generate-helpdesk-ticket",
-            dataType: "JSON",
-            success: function (response) {
-              $("#ticket_number").val(response.data)
-              const today = new Date().toISOString().split('T')[0];
-              $("#due_date").val(today)
-            }
-          });
+          $("#user_id").val(user_id)
+          $("#user_name").val(username)
         })
 
         $(document).on("click", ".btn-save", function(e) {
@@ -588,8 +827,166 @@
           });
         })
 
+        $(document).on("click", ".btn-priority", function(e) {
+          let id = $(this).data('id')
+
+          $.ajax({
+            type: "GET",
+            url: API_URL+"/dashboard/detail-helpdesk/"+id,
+            dataType: "JSON",
+            success: function (response) {
+              let data = response.data[0]
+              $("#ticket_id").val(data.id)
+              $("#user_id_priority").val(data.request_by)
+              $("#user_name_priority").val(data.name)
+              $("#due_date_priority").val(data.due_date)
+              $("#detail_priority").html(data.description)
+              $("#priorityModal").modal('show')
+            }
+          });
+        })
+
+        $(document).on("click", ".btn-priority-save", function(e) {
+          let ticket_id = $("#ticket_id").val()
+
+          $.ajax({
+            type: "POST",
+            url: API_URL+"/dashboard/set-helpdesk-priority/"+ticket_id,
+            data: $("#formHelpdeskPriority").serialize(),
+            dataType: "JSON",
+            success: function (response) {
+              swal({
+                title: "Good job!",
+                text: `Data berhasil ditambah!`,
+                icon: "success",
+                button: "Aww yiss!",
+              });
+
+              setTimeout(() => {
+                document.location.href = "/helpdesk.html"
+              }, 1500);
+            }
+          });
+        })
+
+        //
+        $(document).on("click", ".btn-notes", function(e) {
+          let id = $(this).data('id')
+
+          $.ajax({
+            type: "GET",
+            url: API_URL+"/dashboard/detail-helpdesk/"+id,
+            dataType: "JSON",
+            success: function (response) {
+              let data = response.data[0]
+
+              $("#ticket_id_notes").val(data.id)
+              $("#user_id_notes").val(data.request_by)
+              $("#done_by").val(user_id)
+              $("#user_name_notes").val(data.name)
+              $("#due_date_notes").val(data.due_date)
+              $("#detail_notes").html(data.description)
+              $("#notes").html(data.notes)
+
+              $("#notesModal").modal("show")
+            }
+          });
+        })
+
+        $(document).on("click", ".btn-notes-save", function(e) {
+          let ticket_id = $("#ticket_id_notes").val()
+
+          $.ajax({
+            type: "POST",
+            url: API_URL+"/dashboard/reply-helpdesk/"+ticket_id,
+            data: $("#formHelpdeskNotes").serialize(),
+            dataType: "JSON",
+            success: function (response) {
+              swal({
+                title: "Good job!",
+                text: `Data berhasil ditambah!`,
+                icon: "success",
+                button: "Aww yiss!",
+              });
+
+              setTimeout(() => {
+                document.location.href = "/helpdesk.html"
+              }, 1500);
+            }
+          });
+        })
+        //
+
+        $(document).on("click", ".btn-logs", function(e) {
+          let id = $(this).data('id')
+
+          $.ajax({
+            type: "GET",
+            url: API_URL+"/dashboard/detail-helpdesk/"+id,
+            dataType: "JSON",
+            success: function (response) {
+              let data = response.data[0]
+              let note = response.note_by[0]
+
+              $("#logs-by").html(data.username)
+              $("#logs-created-at").html(data.created_at)
+              $("#logs-due-date").html(data.due_date)
+
+              let notes = ''
+              let done_at = ''
+
+              if (data.notes != null && note.name != null && data.done_at != null) {
+                notes = `<p>${data.notes}</p><p>By : ${note.name}</p>`
+                done_at = data.done_at
+              }
+
+              $("#logs-notes").html(notes)
+              $("#logs-done-at").html(done_at)
+              $("#logsModal").modal("show")
+            }
+          });
+        })
+
         $(document).on("click", ".btn-edit", function(e) {
-          $("#helpdeskModal").modal("show")
+          let id = $(this).data('id')
+
+          $.ajax({
+            type: "GET",
+            url: API_URL+"/dashboard/detail-helpdesk/"+id,
+            dataType: "JSON",
+            success: function (response) {
+              let data = response.data[0]
+
+              $("#detail_edit").html(data.description)
+              $("#due_date_edit").val(data.due_date)
+              $("#id_edit").val(data.id)
+              $("#helpdeskModal").modal("show")
+            }
+          });
+        })
+
+        $(document).on("click", ".btn-update", function(e) {
+          e.preventDefault()
+          let id = $("#id_edit").val()
+
+          $.ajax({
+            type: "POST",
+            url: API_URL+"/dashboard/update-helpdesk/"+id,
+            data: $("#formHelpdeskUpdate").serialize(),
+            dataType: "JSON",
+            success: function (response) {
+              swal({
+                title: "Good job!",
+                text: `Data berhasil ditambah!`,
+                icon: "success",
+                button: "Aww yiss!",
+              });
+
+              setTimeout(() => {
+                document.location.href = "/helpdesk.html"
+              }, 1500);
+            }
+          });
         })
 
         $(document).on("click", ".btn-delete", function(e) {
@@ -606,7 +1003,7 @@
             if (willDelete) {
               $.ajax({
                 type: "POST",
-                url: API_URL+"/dashboard/delete-helpdesk/",
+                url: API_URL+"/dashboard/delete-helpdesk/"+id,
                 data: {
                   code: id
                 },
