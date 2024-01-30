@@ -209,7 +209,7 @@
                       <input type="date" id="to" name="date_to" class="form-control">
                     </div>
                     <div class="form-group">
-                      <button type="submit" class="float-right btn btn-success">Download</button>
+                      <button type="submit" id="filter-btn" class="float-right btn btn-success">Filter</button>
                     </div>
                   </div>
                 </div>
@@ -440,14 +440,15 @@
     <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap4.min.js"></script>
     <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <script>
       $(document).ready(function () {
-        // const socket = io('http://localhost:3000');
-        // const API_URL = 'http://localhost:3000/api'
-        const API_URL = 'http://103.84.206.103:90/api'
-        const socket = io('https://api-mikrotik.linkdemo.web.id');
+        const socket = io('http://127.0.0.1:3000/');
+        const API_URL = 'http://127.0.0.1:3000//api'
+        // const API_URL = 'http://103.84.206.103:90/api'
+        // const socket = io('https://api-mikrotik.linkdemo.web.id');
 
         let username = localStorage.getItem('username')
         let name = localStorage.getItem('name')
@@ -636,6 +637,20 @@
             }
             console.log(localStorage.getItem('router_id'));
 
+            // getSystem(uuid)
+            // getDhcpServer(uuid)
+            // getInterfaceSession(uuid)
+
+            const currentDate = new Date();
+
+            const year = currentDate.getFullYear();
+            const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+            const day = String(currentDate.getDate()).padStart(2, '0');
+
+            const formatDate = `${year}-${month}-${day}`;
+
+            getTopTraffic(uuid, from_date = formatDate, to_date = formatDate)
+
             let routers = ''
             data.items.forEach((value, index) => {
               routers += `<li class="nav-item"> <a class="nav-link routers" data-name="${value.name}" data-router="${value.uuid}" href="javascript:void(0)">${value.name}</a></li>`  
@@ -647,7 +662,109 @@
         });
 
         $(document).on("click", ".routers", function(e) {
-          alert($(this).data('router'))
+          let uuid = $(this).data('router')
+          let name = $(this).data('name')
+          
+          // get localstorage
+          localStorage.removeItem('router_id');
+          localStorage.setItem('router_id', uuid);
+
+          localStorage.removeItem('router_name');
+          localStorage.setItem('router_name', name);
+
+          uuid = localStorage.getItem('router_id');
+          name = localStorage.getItem('router_name');
+
+          swal({
+            title: "Are you sure?",
+            text: `Apakah yakin router ${name} ?`,
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+          })
+          .then((willDelete) => {
+            if (willDelete) {
+              swal({
+                title: "Good job!",
+                text: `Berhasil pindah ke router ${name}!`,
+                icon: "success",
+                button: "Aww yiss!",
+              });
+
+              // getSystem(uuid)
+              // getDhcpServer(uuid)
+              // getInterfaceSession(uuid)
+
+              $("#active-router").html(`(${name})`)
+            } else {
+              swal("Aksi dibatalkan!");
+            }
+          });
+        })
+
+        const bytesToMB = (bytes) => {
+          return (bytes / (1024 * 1024)).toFixed(2);
+        };
+
+        function getTopTraffic(uuid, from_date = formatDate, to_date = formatDate) {
+          $.ajax({
+            type: "POST",
+            url: API_URL+"/upload-download/report",
+            data: {
+              router: uuid,
+              from_date: from_date,
+              to_date: to_date
+            },
+            dataType: "JSON",
+            success: function (response) {
+              let data = response.data
+
+              // Create a map to store accumulated values for each router
+              const routerMap = new Map();
+
+              // Iterate through the data and accumulate tx_byte and rx_byte values
+              data.forEach(item => {
+                  const routerName = item.name;
+                  const rxByte = parseInt(item.rx_byte);
+                  const txByte = parseInt(item.tx_byte);
+
+                  if (!routerMap.has(routerName)) {
+                      routerMap.set(routerName, []);
+                  }
+
+                  routerMap.get(routerName).push({ rx_byte: rxByte, tx_byte: txByte });
+              });
+
+              // Sort the data within each router group based on rx_byte and tx_byte
+              routerMap.forEach((routerData, routerName) => {
+                  routerData.sort((a, b) => b.rx_byte - a.rx_byte); // Sort by rx_byte in descending order
+                  routerData.sort((a, b) => b.tx_byte - a.tx_byte); // Sort by tx_byte in descending order
+              });
+
+              // Get the top 5 entries for each router group in the desired format
+              const top5Data = [];
+
+              routerMap.forEach((routerData, routerName) => {
+                  const top5Entries = routerData.slice(0, 5).map(entry => ({
+                      name: routerName,
+                      tx_byte: entry.tx_byte,
+                      rx_byte: entry.rx_byte
+                  }));
+                  
+                  top5Data.push(...top5Entries);
+              });
+
+              console.log("Top 5 Data for Each Router (Formatted):", top5Data);
+            }
+          });
+        }
+
+        $(document).on("click", "#filter-btn", function(e) {
+          let from_date = $("#from").val()
+          let to_date = $("#to").val()
+
+          let router_id = localStorage.getItem('router_id')
+          getTopTraffic(router_id, from_date, to_date)
         })
       });
     </script>
