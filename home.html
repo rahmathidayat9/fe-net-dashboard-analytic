@@ -476,14 +476,13 @@
     <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap4.min.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
-    <!-- <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> -->
-    <script>
+    <script src="https://unpkg.com/vue@3.4.15/dist/vue.global.prod.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> -->
+    <script> 
+    console['error'] = function(){}
       $(document).ready(function () {
         const API_URL = 'http://103.127.133.99:86/api'
-        const socket = io('http://103.127.133.99:86/');
-        // const API_URL = 'http://103.84.206.103:90/api'
-        // const socket = io('https://api-mikrotik.linkdemo.web.id');
+        const socket = io('http://103.127.133.99:86');
 
         let username = localStorage.getItem('username')
         let name = localStorage.getItem('name')
@@ -1010,7 +1009,7 @@
         console.log(formattedDate);
 
         $("#hour").html(formattedDate)
-
+        
         $(document).on("click", "#nonactive-user-card", function(e) {
           $("#nonactiveUserModal").modal("show")
         })
