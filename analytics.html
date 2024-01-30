@@ -445,8 +445,8 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <script>
       $(document).ready(function () {
-        const socket = io('http://127.0.0.1:3000/');
-        const API_URL = 'http://127.0.0.1:3000//api'
+        const socket = io('http://103.127.133.99:86/');
+        const API_URL = 'http://103.127.133.99:86/api'
         // const API_URL = 'http://103.84.206.103:90/api'
         // const socket = io('https://api-mikrotik.linkdemo.web.id');
 
@@ -718,43 +718,6 @@
             dataType: "JSON",
             success: function (response) {
               let data = response.data
-
-              // Create a map to store accumulated values for each router
-              const routerMap = new Map();
-
-              // Iterate through the data and accumulate tx_byte and rx_byte values
-              data.forEach(item => {
-                  const routerName = item.name;
-                  const rxByte = parseInt(item.rx_byte);
-                  const txByte = parseInt(item.tx_byte);
-
-                  if (!routerMap.has(routerName)) {
-                      routerMap.set(routerName, []);
-                  }
-
-                  routerMap.get(routerName).push({ rx_byte: rxByte, tx_byte: txByte });
-              });
-
-              // Sort the data within each router group based on rx_byte and tx_byte
-              routerMap.forEach((routerData, routerName) => {
-                  routerData.sort((a, b) => b.rx_byte - a.rx_byte); // Sort by rx_byte in descending order
-                  routerData.sort((a, b) => b.tx_byte - a.tx_byte); // Sort by tx_byte in descending order
-              });
-
-              // Get the top 5 entries for each router group in the desired format
-              const top5Data = [];
-
-              routerMap.forEach((routerData, routerName) => {
-                  const top5Entries = routerData.slice(0, 5).map(entry => ({
-                      name: routerName,
-                      tx_byte: entry.tx_byte,
-                      rx_byte: entry.rx_byte
-                  }));
-                  
-                  top5Data.push(...top5Entries);
-              });
-
-              console.log("Top 5 Data for Each Router (Formatted):", top5Data);
             }
           });
         }
