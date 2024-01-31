@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -34,7 +35,7 @@
                   <div class="form-group d-flex align-items-center justify-content-between">
                     <div class="form-check">
                       <label class="form-check-label">
-                        <input type="checkbox" class="form-check-input"> Remember me </label>
+                        <input type="checkbox" class="" id="show-password"> Show Password </label>
                     </div>
                     <a href="#" class="forgot-pass">Forgot password</a>
                   </div>
@@ -66,6 +67,20 @@
             localStorage.removeItem('name')
             localStorage.removeItem('role')
             localStorage.removeItem('user_id')
+
+            $(document).on('click', '#show-password', function(e) {
+              // Get the password input element
+              var passwordInput = $("#password");
+
+              // Check if the type attribute is "password"
+              if (passwordInput.attr("type") === "password") {
+                // Change the type to "text" to show the password
+                passwordInput.attr("type", "text");
+              } else {
+                // Change the type back to "password" to hide the password
+                passwordInput.attr("type", "password");
+              }
+            });
 
             $(document).on("click", "#login-btn", function(e) {
                 e.preventDefault()

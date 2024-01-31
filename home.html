@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -546,13 +547,38 @@
             getDhcpServer(uuid)
             getInterfaceSession(uuid)
 
-            let routers = ''
+            // let routers = ''
+            // data.items.forEach((value, index) => {
+            //   routers += `<li class="nav-item"> <a class="nav-link routers" data-name="${value.name}" data-router="${value.uuid}" href="javascript:void(0)">${value.name}</a></li>`  
+            // })
+            // let routers = '';
+            // data.items.forEach((value, index) => {
+            //     // Add a break character after 5 characters
+            //     let formattedName = value.name.length > 14 ? value.name.slice(0, 14) + '-<wbr>' + value.name.slice(14) : value.name;
+                
+            //     routers += `<li class="nav-item"><a class="nav-link routers" data-name="${value.name}" data-router="${value.uuid}" href="javascript:void(0)">${formattedName}</a></li>`;
+            // });
+            // $("#routers").html(routers)
+            let routers = '';
             data.items.forEach((value, index) => {
-              routers += `<li class="nav-item"> <a class="nav-link routers" data-name="${value.name}" data-router="${value.uuid}" href="javascript:void(0)">${value.name}</a></li>`  
-            })
+                let formattedName = value.name;
+
+                // Break into rows after every 10 characters
+                if (formattedName.length > 20) {
+                    let chunks = [];
+                    for (let i = 0; i < formattedName.length; i += 20) {
+                        chunks.push(formattedName.slice(i, i + 20));
+                    }
+                    formattedName = chunks.join('<br>'); // or you can use '\n' for newline
+                }
+
+                routers += `<li class="nav-item"><a class="nav-link routers" data-name="${value.name}" data-router="${value.uuid}" href="javascript:void(0)" style="white-space: pre-wrap;">${formattedName}</a></li>`;
+            });
+
+            $("#routers").html(routers);
+
 
             $("#active-router").html(`(${name})`)
-            $("#routers").html(routers)
           }
         });
 
@@ -569,7 +595,7 @@
 
               $("#ram").html(`${data["ram-usage"]}%`)
               $("#hdd").html(`${data["hdd-usage"]}%`)
-              $("#cpu").html(`${data["cpu-load"]}`)
+              $("#cpu").html(`${data["cpu-load"]}%`)
             }
           });
         }
