@@ -29,15 +29,15 @@
       <!-- partial:partials/_sidebar.html -->
       <nav class="sidebar sidebar-offcanvas" id="sidebar">
         <div class="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">
-          <a class="sidebar-brand brand-logo" href="index.html"><img src="assets/images/logo.svg" alt="logo" /></a>
-          <a class="sidebar-brand brand-logo-mini" href="index.html"><img src="assets/images/logo-mini.svg" alt="logo" /></a>
+          <!-- <a class="sidebar-brand brand-logo" href="index.html"><img src="assets/images/logo.svg" alt="logo" /></a> -->
+          <!-- <a class="sidebar-brand brand-logo-mini" href="index.html"><img src="assets/images/logo-mini.svg" alt="logo" /></a> -->
         </div>
         <ul class="nav">
           <li class="nav-item profile">
             <div class="profile-desc">
               <div class="profile-pic">
                 <div class="count-indicator">
-                  <img class="img-xs rounded-circle " src="assets/images/faces/face15.jpg" alt="">
+                  <img class="img-xs rounded-circle " src="assets/images/user.png" alt="">
                   <span class="count bg-success"></span>
                 </div>
                 <div class="profile-name">
@@ -45,59 +45,11 @@
                   <span>Gold Member</span>
                 </div>
               </div>
-              <a href="#" id="profile-dropdown" data-toggle="dropdown"><i class="mdi mdi-dots-vertical"></i></a>
-              <div class="dropdown-menu dropdown-menu-right sidebar-dropdown preview-list" aria-labelledby="profile-dropdown">
-                <a href="#" class="dropdown-item preview-item">
-                  <div class="preview-thumbnail">
-                    <div class="preview-icon bg-dark rounded-circle">
-                      <i class="mdi mdi-settings text-primary"></i>
-                    </div>
-                  </div>
-                  <div class="preview-item-content">
-                    <p class="preview-subject ellipsis mb-1 text-small">Account settings</p>
-                  </div>
-                </a>
-                <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item preview-item">
-                  <div class="preview-thumbnail">
-                    <div class="preview-icon bg-dark rounded-circle">
-                      <i class="mdi mdi-onepassword  text-info"></i>
-                    </div>
-                  </div>
-                  <div class="preview-item-content">
-                    <p class="preview-subject ellipsis mb-1 text-small">Change Password</p>
-                  </div>
-                </a>
-                <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item preview-item">
-                  <div class="preview-thumbnail">
-                    <div class="preview-icon bg-dark rounded-circle">
-                      <i class="mdi mdi-calendar-today text-success"></i>
-                    </div>
-                  </div>
-                  <div class="preview-item-content">
-                    <p class="preview-subject ellipsis mb-1 text-small">To-do list</p>
-                  </div>
-                </a>
-              </div>
+              
             </div>
           </li>
           <li class="nav-item nav-category">
             <span class="nav-link">Navigation</span>
-          </li>
-          <li class="nav-item menu-items">
-            <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
-              <span class="menu-icon">
-                <i class="mdi mdi-laptop"></i>
-              </span>
-              <span class="menu-title">Router List</span>
-              <i class="menu-arrow"></i>
-            </a>
-            <div class="collapse" id="ui-basic">
-              <ul class="nav flex-column sub-menu" id="routers">
-                
-              </ul>
-            </div>
           </li>
           <li class="nav-item menu-items">
             <a class="nav-link" href="home.html">
@@ -110,7 +62,7 @@
           <li class="nav-item menu-items">
             <a class="nav-link" href="router.html">
               <span class="menu-icon">
-                <i class="mdi mdi-account-group"></i>
+                <i class="mdi mdi-router-wireless-settings"></i>
               </span>
               <span class="menu-title">Manajemen Router</span>
             </a>
@@ -156,7 +108,7 @@
               <li class="nav-item dropdown">
                 <a class="nav-link" id="profileDropdown" href="#" data-toggle="dropdown">
                   <div class="navbar-profile">
-                    <img class="img-xs rounded-circle" src="assets/images/faces/face15.jpg" alt="">
+                    <img class="img-xs rounded-circle" src="assets/images/user.png" alt="">
                     <p class="mb-0 d-none d-sm-block navbar-profile-name">Administrator</p>
                     <i class="mdi mdi-menu-down d-none d-sm-block"></i>
                   </div>
@@ -237,7 +189,13 @@
                         <div class="form-group">
                             <label for="">Port:</label>
                             <input type="text" id="portt_edit" name="portt" class="form-control">
-                            <input type="hidden" value="Active" id="status" name="status" class="form-control">
+                            <input type="hidden" value="Active" id="tatus" name="status" class="form-control">
+                        </div>
+                        <div class="form-group">
+                          <label for="">Internet:</label>
+                          <select name="internet" class="form-control" id="internet">
+                            
+                          </select>
                         </div>
                 </div>
                 <div class="modal-footer">
@@ -333,8 +291,8 @@
           <!-- partial:partials/_footer.html -->
           <footer class="footer">
             <div class="d-sm-flex justify-content-center justify-content-sm-between">
-              <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright © bootstrapdash.com 2023</span>
-              <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center"> Free <a href="https://www.bootstrapdash.com/bootstrap-admin-template/" target="_blank">Bootstrap admin templates</a> from Bootstrapdash.com</span>
+              <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright © PT SOLUSI TIGA BERSAMA 2024</span>
+              <!-- <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center"> Free <a href="https://www.bootstrapdash.com/bootstrap-admin-template/" target="_blank">Bootstrap admin templates</a> from Bootstrapdash.com</span> -->
             </div>
           </footer>
           <!-- partial -->
@@ -376,7 +334,8 @@
     <script src="https://unpkg.com/vue@3.4.15/dist/vue.global.prod.js"></script>
     <script>
       $(document).ready(function () {
-        const API_URL = 'http://103.127.133.99:86/api'
+        const API_URL = 'http://localhost:3000/api'
+        // const API_URL = 'http://103.127.133.99:86/api'
         // const socket = io('http://103.127.133.99:86/');
         // const API_URL = 'http://103.84.206.103:90/api'
         // const socket = io('https://api-mikrotik.linkdemo.web.id');
@@ -464,19 +423,33 @@
             url: API_URL+"/dashboard/get-router/",
             dataType: "JSON",
             success: function (response) {
-                let items = response.data.items
-                const data = items.find(item => item.uuid === id);
-                data || null; // Return null if no match is found
+              $.ajax({
+                type: "GET",
+                url: API_URL+"/dashboard/get-internet?uuid="+id,
+                dataType: "JSON",
+                success: function (response2) {
+                  let items = response.data.items
+                  const data = items.find(item => item.uuid === id);
+                  data || null; // Return null if no match is found
 
-                $("#uuid_edit").val(data.uuid);
-                $("#code_edit").val(data.code);
-                $("#name_edit").val(data.name);
-                $("#ipaddress_edit").val(data.ipaddress);
-                $("#user_edit").val(data.user);
-                $("#pass_edit").val(data.pass);
-                $("#portt_edit").val(data.port);
+                  $("#uuid_edit").val(data.uuid);
+                  $("#code_edit").val(data.code);
+                  $("#name_edit").val(data.name);
+                  $("#ipaddress_edit").val(data.ipaddress);
+                  $("#user_edit").val(data.user);
+                  $("#pass_edit").val(data.pass);
+                  $("#portt_edit").val(data.port);
 
-                $("#routerModal").modal("show")
+                  let internet = ''
+                  let dataInternet = response2
+                  dataInternet.forEach((value, index) => {
+                    internet += `<option value="${value.name}">${value.name}</option>`
+                  })
+                  $("#internet").html(internet)
+
+                  $("#routerModal").modal("show")
+                }
+              });
             }
           });
         })
@@ -556,6 +529,7 @@
                 button: "Aww yiss!",
               });
 
+              localStorage.setItem('defaultInterface', $("#internet").val())
               setTimeout(() => {
                 document.location.href = "/router.html"
               }, 1500);

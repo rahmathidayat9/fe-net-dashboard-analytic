@@ -37,7 +37,7 @@
                       <label class="form-check-label">
                         <input type="checkbox" class="" id="show-password"> Show Password </label>
                     </div>
-                    <a href="#" class="forgot-pass">Forgot password</a>
+                    <!-- <a href="#" class="forgot-pass">Forgot password</a> -->
                   </div>
                   <div class="text-center">
                     <button type="submit" id="login-btn" class="btn btn-primary btn-block enter-btn">Login</button>
@@ -61,7 +61,8 @@
     <script src="https://unpkg.com/vue@3.4.15/dist/vue.global.prod.js"></script>
     <script>
         $(document).ready(function () {
-            const API_URL = 'http://103.127.133.99:86/api'
+            const API_URL = 'http://localhost:3000/api'
+            // const API_URL = 'http://103.127.133.99:86/api'
 
             localStorage.removeItem('username')
             localStorage.removeItem('name')

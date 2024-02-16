@@ -30,15 +30,15 @@
       <!-- partial:partials/_sidebar.html -->
       <nav class="sidebar sidebar-offcanvas" id="sidebar">
         <div class="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">
-          <a class="sidebar-brand brand-logo" href="index.html"><img src="assets/images/logo.svg" alt="logo" /></a>
-          <a class="sidebar-brand brand-logo-mini" href="index.html"><img src="assets/images/logo-mini.svg" alt="logo" /></a>
+          <!-- <a class="sidebar-brand brand-logo" href="index.html"><img src="assets/images/logo.svg" alt="logo" /></a> -->
+          <!-- <a class="sidebar-brand brand-logo-mini" href="index.html"><img src="assets/images/logo-mini.svg" alt="logo" /></a> -->
         </div>
         <ul class="nav">
           <li class="nav-item profile">
             <div class="profile-desc">
               <div class="profile-pic">
                 <div class="count-indicator">
-                  <img class="img-xs rounded-circle " src="assets/images/faces/face15.jpg" alt="">
+                  <img class="img-xs rounded-circle " src="assets/images/user.png" alt="">
                   <span class="count bg-success"></span>
                 </div>
                 <div class="profile-name">
@@ -46,7 +46,7 @@
                   <span id="role"></span>
                 </div>
               </div>
-              <a href="#" id="profile-dropdown" data-toggle="dropdown"><i class="mdi mdi-dots-vertical"></i></a>
+              <!-- <a href="#" id="profile-dropdown" data-toggle="dropdown"><i class="mdi mdi-dots-vertical"></i></a>
               <div class="dropdown-menu dropdown-menu-right sidebar-dropdown preview-list" aria-labelledby="profile-dropdown">
                 <a href="#" class="dropdown-item preview-item">
                   <div class="preview-thumbnail">
@@ -55,50 +55,14 @@
                     </div>
                   </div>
                   <div class="preview-item-content">
-                    <p class="preview-subject ellipsis mb-1 text-small">Account settings</p>
+                    <p class="preview-subject ellipsis mb-1 text-small">Logout</p>
                   </div>
                 </a>
-                <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item preview-item">
-                  <div class="preview-thumbnail">
-                    <div class="preview-icon bg-dark rounded-circle">
-                      <i class="mdi mdi-onepassword  text-info"></i>
-                    </div>
-                  </div>
-                  <div class="preview-item-content">
-                    <p class="preview-subject ellipsis mb-1 text-small">Change Password</p>
-                  </div>
-                </a>
-                <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item preview-item">
-                  <div class="preview-thumbnail">
-                    <div class="preview-icon bg-dark rounded-circle">
-                      <i class="mdi mdi-calendar-today text-success"></i>
-                    </div>
-                  </div>
-                  <div class="preview-item-content">
-                    <p class="preview-subject ellipsis mb-1 text-small">To-do list</p>
-                  </div>
-                </a>
-              </div>
+              </div> -->
             </div>
           </li>
           <li class="nav-item nav-category">
             <span class="nav-link">Navigation</span>
-          </li>
-          <li class="nav-item menu-items" id="div-router-list">
-            <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
-              <span class="menu-icon">
-                <i class="mdi mdi-laptop"></i>
-              </span>
-              <span class="menu-title">Router List</span>
-              <i class="menu-arrow"></i>
-            </a>
-            <div class="collapse" id="ui-basic">
-              <ul class="nav flex-column sub-menu" id="routers">
-                
-              </ul>
-            </div>
           </li>
           <li class="nav-item menu-items" id="div-dashboard">
             <a class="nav-link" href="home.html">
@@ -111,7 +75,7 @@
           <li class="nav-item menu-items" id="div-router">
             <a class="nav-link" href="router.html">
               <span class="menu-icon">
-                <i class="mdi mdi-account-group"></i>
+                <i class="mdi mdi-router-wireless-settings"></i>
               </span>
               <span class="menu-title">Manajemen Router</span>
             </a>
@@ -157,13 +121,13 @@
               <li class="nav-item dropdown">
                 <a class="nav-link" id="profileDropdown" href="#" data-toggle="dropdown">
                   <div class="navbar-profile">
-                    <img class="img-xs rounded-circle" src="assets/images/faces/face15.jpg" alt="">
+                    <img class="img-xs rounded-circle" src="assets/images/user.png" alt="">
                     <p class="mb-0 d-none d-sm-block navbar-profile-name"><span id="username"></span></p>
                     <i class="mdi mdi-menu-down d-none d-sm-block"></i>
                   </div>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="profileDropdown">
-                  <h6 class="p-3 mb-0">Profile</h6>
+                  <!-- <h6 class="p-3 mb-0">Profile</h6> -->
                   <div class="dropdown-divider"></div>
                   <a class="dropdown-item preview-item" href="javascript:void(0)">
                     <div class="preview-thumbnail">
@@ -174,6 +138,16 @@
                     <div class="preview-item-content">
                       <p class="preview-subject mb-1">Active Router <br>
                       <span class="text-small" id="active-router"></span></p>
+                    </div>
+                  </a>
+                  <a class="dropdown-item preview-item" id="router-list" href="javascript:void(0)">
+                    <div class="preview-thumbnail">
+                      <div class="preview-icon bg-dark rounded-circle">
+                        <i class="mdi mdi-laptop text-primary"></i>
+                      </div>
+                    </div>
+                    <div class="preview-item-content">
+                      <p class="preview-subject mb-1">List Router</p>
                     </div>
                   </a>
                   <a class="dropdown-item preview-item" href="/">
@@ -265,13 +239,44 @@
                 </div>
               </div>
               <!-- // -->
+
+              <!-- Modal -->
+              <div class="modal fade" id="routerModal" tabindex="-1" aria-labelledby="routerModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="routerModalLabel">Active Users</h5>
+                      <button type="button" class="close text-light" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <table id="router-table" class="table table-striped table-bordered" style="width:100%">
+                        <thead>
+                            <tr>
+                              <th>Name</th>
+                              <th>Host</th>
+                              <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                      </table>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- // -->
               <div class="col-xl-3 col-sm-6 grid-margin stretch-card">
                 <div class="card">
                   <div class="card-body">
                     <div class="row">
                       <div class="col-9">
                         <div class="d-flex align-items-center align-self-start">
-                          <h3 class="mb-0"><span id="upload">20</span> Kbps</h3>
+                          <h3 class="mb-0"><span id="upload">0</span></h3>
                           <p class="text-success ml-2 mb-0 font-weight-medium">--</p>
                         </div>
                       </div>
@@ -291,7 +296,7 @@
                     <div class="row">
                       <div class="col-9">
                         <div class="d-flex align-items-center align-self-start">
-                          <h3 class="mb-0"><span id="download">10</span> Kbps</h3>
+                          <h3 class="mb-0"><span id="download">0</span></h3>
                           <p class="text-primary ml-2 mb-0 font-weight-medium">--</p>
                         </div>
                       </div>
@@ -447,8 +452,8 @@
           <!-- partial:partials/_footer.html -->
           <footer class="footer">
             <div class="d-sm-flex justify-content-center justify-content-sm-between">
-              <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright © bootstrapdash.com 2023</span>
-              <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center"> Free <a href="https://www.bootstrapdash.com/bootstrap-admin-template/" target="_blank">Bootstrap admin templates</a> from Bootstrapdash.com</span>
+              <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright © PT SOLUSI TIGA BERSAMA 2024</span>
+              <!-- <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center"> Free <a href="https://www.bootstrapdash.com/bootstrap-admin-template/" target="_blank">Bootstrap admin templates</a> from Bootstrapdash.com</span> -->
             </div>
           </footer>
           <!-- partial -->
@@ -482,8 +487,11 @@
     <script> 
     console['error'] = function(){}
       $(document).ready(function () {
-        const API_URL = 'http://103.127.133.99:86/api'
-        const socket = io('http://103.127.133.99:86');
+        // const API_URL = 'http://103.127.133.99:86/api'
+        // const socket = io('http://103.127.133.99:86');
+        const API_URL = 'http://localhost:3000/api'
+        const socket = io('http://localhost:3000');
+
 
         let username = localStorage.getItem('username')
         let name = localStorage.getItem('name')
@@ -559,28 +567,54 @@
             //     routers += `<li class="nav-item"><a class="nav-link routers" data-name="${value.name}" data-router="${value.uuid}" href="javascript:void(0)">${formattedName}</a></li>`;
             // });
             // $("#routers").html(routers)
-            let routers = '';
-            data.items.forEach((value, index) => {
-                let formattedName = value.name;
+            // let routers = '';
+            // data.items.forEach((value, index) => {
+            //     let formattedName = value.name;
 
-                // Break into rows after every 10 characters
-                if (formattedName.length > 20) {
-                    let chunks = [];
-                    for (let i = 0; i < formattedName.length; i += 20) {
-                        chunks.push(formattedName.slice(i, i + 20));
-                    }
-                    formattedName = chunks.join('<br>'); // or you can use '\n' for newline
-                }
+            //     // Break into rows after every 10 characters
+            //     if (formattedName.length > 20) {
+            //         let chunks = [];
+            //         for (let i = 0; i < formattedName.length; i += 20) {
+            //             chunks.push(formattedName.slice(i, i + 20));
+            //         }
+            //         formattedName = chunks.join('<br>'); // or you can use '\n' for newline
+            //     }
 
-                routers += `<li class="nav-item"><a class="nav-link routers" data-name="${value.name}" data-router="${value.uuid}" href="javascript:void(0)" style="white-space: pre-wrap;">${formattedName}</a></li>`;
+            //     routers += `<li class="nav-item"><a class="nav-link routers" data-name="${value.name}" data-router="${value.uuid}" href="javascript:void(0)" style="white-space: pre-wrap;">${formattedName}</a></li>`;
+            // });
+
+            // $("#routers").html(routers);
+
+            let dataItems = data.items
+
+            var table = $('#router-table').DataTable({
+              pageLength: 5,
             });
 
-            $("#routers").html(routers);
+            // Add data to the table
+            for (var i = 0; i < dataItems.length; i++) {
+                var rowData = dataItems[i];
+                var editButton = ''
+                // if (name == rowData.name) {
+                  editButton += '<button class="btn-edit btn btn-primary" id="router-data" data-name="'+rowData.name+'" data-router="'+rowData.uuid+'" data-id="' + rowData.uuid + '">Set Router</button>';
+                // } else {
+                  // editButton += '<button class="btn-edit btn btn-success" data-id="' + rowData.uuid + '">Activate</button>';
+                // }
 
+                table.row.add([
+                    rowData.name,
+                    rowData.ipaddress,
+                    editButton
+                ]).draw();
+            }
 
             $("#active-router").html(`(${name})`)
           }
         });
+
+        $(document).on("click", "#router-list", function(e) {
+          $("#routerModal").modal("show")
+        })
 
         function getSystem(uuid) {
           $.ajax({
@@ -730,8 +764,9 @@
                 success: function (response2) {
                   //
                   let data = response1
+                  let dataResponse2 = response2
                   localStorage.setItem('dataInterface', JSON.stringify(data));
-                  localStorage.setItem('defaultInterface', data[0]);
+                  localStorage.setItem('defaultInterface', dataResponse2.data.internet);
                   let dataInterface = localStorage.getItem('dataInterface');
                   let interfaces = localStorage.getItem('dataInterface');
                   
@@ -869,6 +904,16 @@
           });
         }
 
+        function formatBytesInternet(bytes) {
+          if (bytes < 1024) {
+              return bytes + ' Bps';
+          } else if (bytes < 1024 * 1024) {
+              return (bytes / 1024).toFixed(2) + ' Kbps';
+          } else {
+              return (bytes / (1024 * 1024)).toFixed(2) + ' Mbps';
+          }
+        }
+
         function formatBytes(bytes) {
           let kilobyte = bytes / 1024;
           return parseInt(kilobyte)
@@ -879,11 +924,14 @@
           const uploadData = formatBytes(data.upload);
           const downloadData = formatBytes(data.download);
           updateData(uploadData, downloadData);
-          $("#download").html(downloadData)
-          $("#upload").html(uploadData)
+
+          let upData = formatBytesInternet(data.upload)
+          let downData = formatBytesInternet(data.download)
+          $("#download").html(upData)
+          $("#upload").html(downData)
         })
 
-        $(document).on("click", ".routers", function(e) {
+        $(document).on("click", "#router-data", function(e) {
           let uuid = $(this).data('router')
           let name = $(this).data('name')
           
@@ -917,6 +965,9 @@
               getDhcpServer(uuid)
               getInterfaceSession(uuid)
 
+              $("#routerModal").modal("hide")
+
+
               $("#active-router").html(`(${name})`)
             } else {
               swal("Aksi dibatalkan!");
@@ -943,7 +994,7 @@
             }
           },
           title: {
-            text: 'Download & Upload Statistics : Ether 1',
+            text: 'Download & Upload Statistics : '+defaultInterface,
             style: {
               color: 'white',
               // fontSize: '14px',
