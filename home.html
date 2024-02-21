@@ -256,6 +256,7 @@
                             <tr>
                               <th>Name</th>
                               <th>Host</th>
+                              <th>Uuid</th>
                               <th>Action</th>
                             </tr>
                         </thead>
@@ -487,11 +488,10 @@
     <script> 
     console['error'] = function(){}
       $(document).ready(function () {
-        // const API_URL = 'http://103.127.133.99:86/api'
-        // const socket = io('http://103.127.133.99:86');
-        const API_URL = 'http://localhost:3000/api'
-        const socket = io('http://localhost:3000');
-
+        const API_URL = 'http://203.175.10.32:86/api'
+        const socket = io('http://203.175.10.32:86');
+        // const API_URL = 'http://localhost:3000/api'
+        // const socket = io('http://localhost:3000');
 
         let username = localStorage.getItem('username')
         let name = localStorage.getItem('name')
@@ -555,36 +555,6 @@
             getDhcpServer(uuid)
             getInterfaceSession(uuid)
 
-            // let routers = ''
-            // data.items.forEach((value, index) => {
-            //   routers += `<li class="nav-item"> <a class="nav-link routers" data-name="${value.name}" data-router="${value.uuid}" href="javascript:void(0)">${value.name}</a></li>`  
-            // })
-            // let routers = '';
-            // data.items.forEach((value, index) => {
-            //     // Add a break character after 5 characters
-            //     let formattedName = value.name.length > 14 ? value.name.slice(0, 14) + '-<wbr>' + value.name.slice(14) : value.name;
-                
-            //     routers += `<li class="nav-item"><a class="nav-link routers" data-name="${value.name}" data-router="${value.uuid}" href="javascript:void(0)">${formattedName}</a></li>`;
-            // });
-            // $("#routers").html(routers)
-            // let routers = '';
-            // data.items.forEach((value, index) => {
-            //     let formattedName = value.name;
-
-            //     // Break into rows after every 10 characters
-            //     if (formattedName.length > 20) {
-            //         let chunks = [];
-            //         for (let i = 0; i < formattedName.length; i += 20) {
-            //             chunks.push(formattedName.slice(i, i + 20));
-            //         }
-            //         formattedName = chunks.join('<br>'); // or you can use '\n' for newline
-            //     }
-
-            //     routers += `<li class="nav-item"><a class="nav-link routers" data-name="${value.name}" data-router="${value.uuid}" href="javascript:void(0)" style="white-space: pre-wrap;">${formattedName}</a></li>`;
-            // });
-
-            // $("#routers").html(routers);
-
             let dataItems = data.items
 
             var table = $('#router-table').DataTable({
@@ -604,6 +574,7 @@
                 table.row.add([
                     rowData.name,
                     rowData.ipaddress,
+                    rowData.uuid,
                     editButton
                 ]).draw();
             }
@@ -766,7 +737,8 @@
                   let data = response1
                   let dataResponse2 = response2
                   localStorage.setItem('dataInterface', JSON.stringify(data));
-                  localStorage.setItem('defaultInterface', dataResponse2.data.internet);
+                  // localStorage.setItem('defaultInterface', dataResponse2.data.internet);
+                  localStorage.setItem('defaultInterface', 'ether1');
                   let dataInterface = localStorage.getItem('dataInterface');
                   let interfaces = localStorage.getItem('dataInterface');
                   
