@@ -186,8 +186,10 @@
                         <div class="form-group">
                             <label for="">Role:</label>
                             <select class="form-control" name="role_id" id="role_id_edit">
-                              <option value="1">Admin</option>
-                              <option value="2">User</option>
+                              <option value="super admin">Super Admin</option>
+                              <option value="admin">Admin</option>
+                              <option value="teknisi">Teknisi</option>
+                              <option value="satker">Satker</option>
                             </select>
                         </div>
                         <div class="form-group">
@@ -223,12 +225,14 @@
                         <div class="form-group">
                           <label for="">Full Name:</label>
                           <input type="text" id="name" name="name" class="form-control">
-                      </div>
+                        </div>
                         <div class="form-group">
                             <label for="">Role:</label>
                             <select class="form-control" name="role_id" id="role_id">
-                              <option value="1">Admin</option>
-                              <option value="2">User</option>
+                              <option value="super admin">Super Admin</option>
+                              <option value="admin">Admin</option>
+                              <option value="teknisi">Teknisi</option>
+                              <option value="satker">Satker</option>
                             </select>
                         </div>
                         <div class="form-group">
@@ -335,8 +339,9 @@
     </script>
     <script>
       $(document).ready(function () {
-        const API_URL = 'http://203.175.10.32:86/api'
-        // const API_URL = 'http://localhost:3000/api'
+        // const API_URL = 'http://103.127.133.99:86/api'
+        // const API_URL = 'http://203.175.10.32:86/api'
+        const API_URL = 'http://localhost:3000/api'
 
         /* Get Users */
         $.ajax({

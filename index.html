@@ -59,10 +59,24 @@
     <script src="./assets/js/settings.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/vue@3.4.15/dist/vue.global.prod.js"></script>
+    <script src="https://unpkg.com/vue@3.4.15/dist/vue.global.prod.js"></script>
+    <script>
+      const app = Vue.createApp({
+        data() {
+          return {
+            message: 'Hello, Vue.js!'
+          };
+        }
+      });
+
+      // Mount the Vue instance to the specified HTML element
+      app.mount('#app');
+    </script>
     <script>
         $(document).ready(function () {
-            const API_URL = 'http://203.175.10.32:86/api'
-            // const API_URL = 'http://localhost:3000/api'
+            // const API_URL = 'http://103.127.133.99:86/api'
+            // const API_URL = 'http://203.175.10.32:86/api'
+            const API_URL = 'http://localhost:3000/api'
 
             localStorage.removeItem('username')
             localStorage.removeItem('name')
