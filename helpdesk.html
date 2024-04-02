@@ -356,7 +356,7 @@
                     <form id="formHelpdeskNotes">
                       <div class="form-group">
                         <label for="">Requested By:</label>
-                        <input type="hidden" id="ticket_id_notes" name="user_id" value="" class="form-control">
+                        <input type="hidden" id="ticket_id_notes" name="ticket_id" value="" class="form-control">
                         <input type="hidden" id="user_id_notes" name="user_id" value="" class="form-control">
                         <input type="hidden" id="priority_id_notes" name="priority_id" value="" class="form-control">
                         <input type="hidden" id="due_date_notes" name="due_date" value="" class="form-control">
@@ -366,10 +366,10 @@
                         <label for="">Detail:</label>
                         <textarea name="detail" id="detail_notes" class="form-control" cols="30" rows="2">-</textarea>
                       </div>
-                      <div class="form-group">
+                      <!-- <div class="form-group">
                         <label for="">Notes:</label>
                         <textarea name="note" id="note_notes" class="form-control" cols="30" rows="2">-</textarea>
-                      </div>
+                      </div> -->
                       <div class="form-group">
                         <label for="">Cause:</label>
                         <textarea name="cause" id="cause_notes" class="form-control" cols="30" rows="2">-</textarea>
@@ -378,13 +378,13 @@
                         <label for="">Solution:</label>
                         <textarea name="solution" id="solution_notes" class="form-control" cols="30" rows="2">-</textarea>
                       </div>
-                      <div class="form-group">
+                      <!-- <div class="form-group">
                         <label for="">Status:</label>
                         <select name="status" id="status_notes" class="form-control" id="status">
                           <option value="pending">Pending</option>
                           <option value="processed">Processed</option>
                         </select>
-                      </div>
+                      </div> -->
                   </form>
                   </div>
                   <div class="modal-footer">
@@ -442,7 +442,7 @@
                     <div class="row">
                       <div class="col-9">
                         <div class="d-flex align-items-center align-self-start">
-                          <h3 class="mb-0"><span id="deleted_ticket">0</span> </h3>
+                          <h3 class="mb-0"><span id="closed_ticket">0</span> </h3>
                           <p class="text-warning ml-2 mb-0 font-weight-medium">--</p>
                         </div>
                       </div>
@@ -462,7 +462,7 @@
                     <div class="row">
                       <div class="col-9">
                         <div class="d-flex align-items-center align-self-start">
-                          <h3 class="mb-0"><span id="closed_ticket">0</span> </h3>
+                          <h3 class="mb-0"><span id="deleted_ticket">0</span> </h3>
                           <p class="text-danger ml-2 mb-0 font-weight-medium">--</p>
                         </div>
                       </div>
@@ -482,10 +482,10 @@
                 <div class="card">
                   <div class="card-header">
                     <!-- Button trigger modal -->
-                    <button type="button" id="btn-satker" class="btn btn-primary">
+                    <button type="button" id="" class="btn btn-primary">
                       Total Ticket : <b id="all_ticket"></b>
                     </button>
-                    <button type="button" id="btn-satker" class="btn btn-satker btn-success btn-create ml-2" data-toggle="modal" data-target="#createHelpdeskModal">
+                    <button type="button" id="" class="btn btn-satker btn-success btn-create ml-2" data-toggle="modal" data-target="#createHelpdeskModal">
                       Add Ticket
                     </button>
                   </div>
@@ -579,7 +579,8 @@
       $(document).ready(function () {
         // const API_URL = 'http://203.175.10.32:86/api'
         // const API_URL = 'http://103.127.133.99:86/api'
-        const API_URL = 'http://localhost:3000/api'
+        // const API_URL = 'http://10.0.0.5:9090/api'
+        const API_URL = 'http://localhost:4000/api'
 
         let username = localStorage.getItem('username')
         let name = localStorage.getItem('name')
@@ -587,12 +588,11 @@
         let user_id = localStorage.getItem('user_id')
 
         if (role == 'super admin') {
-          // $("#btn-satker").hide()
+
         }
 
         if (role == 'admin') {
-          // btn
-          // $("#btn-satker").hide()
+
         }
 
         if (role == 'teknisi') {
@@ -689,7 +689,7 @@
 
                 var editButton = "";
                 var deleteButton = ""
-                let logsButton = '<button class="btn-logs btn btn-danger" data-id="' + rowData.id + '">Logs</button>';
+                let logsButton = '<button class="btn-logs btn btn-success" data-id="' + rowData.id + '">Logs</button>';
 
                 if (role == "super admin"
                 || role == "admin") {
@@ -721,6 +721,14 @@
                   priority_level = "<span class='badge badge-danger'>Pending</span>"
                 }
 
+                if (rowData.due_date == null) {
+                  editButton = '';
+                }
+
+                if (rowData.status == 'closed') {
+                  editButton = '';
+                }
+
                 table.row.add([
                     rowData.user,
                     priority_level,
@@ -744,6 +752,7 @@
           url: API_URL+"/ticket/count/pending",
           dataType: "JSON",
           success: function (response) {
+            console.log("pending "+response.data.ticket);
             $("#pending_ticket").html(response.data.ticket)
           }
         });
@@ -753,6 +762,7 @@
           url: API_URL+"/ticket/count/processed",
           dataType: "JSON",
           success: function (response) {
+            console.log("processed "+response.data.ticket);
             $("#processed_ticket").html(response.data.ticket)
 
           }
@@ -763,6 +773,7 @@
           url: API_URL+"/ticket/count/closed",
           dataType: "JSON",
           success: function (response) {
+            console.log("closed "+response.data.ticket);
             $("#closed_ticket").html(response.data.ticket)
           }
         });
@@ -772,6 +783,7 @@
           url: API_URL+"/ticket/count/all",
           dataType: "JSON",
           success: function (response) {
+            console.log("all "+response.data.ticket);
             $("#all_ticket").html(response.data.ticket)
           }
         });
@@ -781,6 +793,7 @@
           url: API_URL+"/ticket/count/deleted",
           dataType: "JSON",
           success: function (response) {
+            console.log("deleted "+response.data.ticket);
             $("#deleted_ticket").html(response.data.ticket)
           }
         });
@@ -859,7 +872,7 @@
             success: function (response) {
               let data = response.data.ticket
 
-              $("#ticket_id_notes").val(data.ticket_id)
+              $("#ticket_id_notes").val(data.id)
               $("#user_notes").val(data.user)
               $("#detail_notes").val(data.detail)
               $("#status_notes").val(data.status)
@@ -877,7 +890,7 @@
 
           $.ajax({
             type: "POST",
-            url: API_URL+"/dashboard/reply-helpdesk/"+ticket_id,
+            url: API_URL+"/ticket/closed/"+ticket_id,
             data: $("#formHelpdeskNotes").serialize(),
             dataType: "JSON",
             success: function (response) {
@@ -948,24 +961,24 @@
             success: function (response) {
               let ticket = response.data.ticket
               let logs = response.data.logs
-              let newestLog = null
-              if (logs.length > 0) {
-                  // Sort the logs array based on the 'created_at' timestamp in descending order
-                  logs.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+              // let newestLog = null
+              // if (logs.length > 0) {
+              //     // Sort the logs array based on the 'created_at' timestamp in descending order
+              //     logs.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
                   
-                  // Get the newest log (first element after sorting)
-                  newestLog = logs[0];
+              //     // Get the newest log (first element after sorting)
+              //     newestLog = logs[0];
                   
-                  console.log(newestLog);
-              } else {
-                  console.log("No log entries found.");
-              }
+              //     console.log(newestLog);
+              // } else {
+              //     console.log("No log entries found.");
+              // }
 
               let str = ticket.priority
               let priority = parseInt(str.match(/\d+/)[0]);
               $("#detail_edit").html(ticket.detail)
-              $("#note_edit").html(newestLog.note)
-              $("#note_edit").html(newestLog.note)
+              $("#note_edit").html()
+              // $("#note_edit").html(newestLog.note)
               $("#due_date").val(ticket.due_date)
               // console.log(newestLog);
               $("#id_edit").val(ticket.id)

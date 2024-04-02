@@ -485,7 +485,18 @@
     <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
     <script src="https://unpkg.com/vue@3.4.15/dist/vue.global.prod.js"></script>
     <!-- <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> -->
-    <script> 
+    <script>
+    const app = Vue.createApp({
+      data() {
+        return {
+          message: 'Hello, Vue.js!'
+        };
+      }
+    });
+
+    // Mount the Vue instance to the specified HTML element
+    app.mount('#app');
+
     console['error'] = function(){}
       $(document).ready(function () {
         // const API_URL = 'http://203.175.10.32:86/api'
@@ -494,8 +505,11 @@
         // const API_URL = 'http://103.127.133.99:86/api'
         // const socket = io('http://103.127.133.99:86');
         
-        const API_URL = 'http://localhost:3000/api'
-        const socket = io('http://localhost:3000');
+        // const API_URL = 'http://10.0.0.5:9090/api'
+        // const socket = io('http://10.0.0.5:9090');
+
+        const API_URL = 'http://localhost:4000/api'
+        const socket = io('http://localhost:4000');
 
         let username = localStorage.getItem('username')
         let name = localStorage.getItem('name')

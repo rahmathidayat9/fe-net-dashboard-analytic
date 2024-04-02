@@ -269,8 +269,8 @@
                           <div class="d-flex d-sm-block d-md-flex align-items-center">
                             <h2 class="mb-0">RAM</h2>
                             <p class="ml-2 mb-0 font-weight-medium ml-4" style="position: relative; left: 110px;">
-                              <span class="text-danger">High : 45%</span><br>
-                              <span class="text-success">Avg : 305%</span>
+                              <span class="text-danger">High : <span id="highest-ram">0%</span></span><br>
+                              <span class="text-success">Avg : <span id="average-ram">0%</span></span>
                             </p>
                           </div>
                         </div>
@@ -287,8 +287,8 @@
                           <div class="d-flex d-sm-block d-md-flex align-items-center">
                             <h2 class="mb-0">CPU</h2>
                             <p class="ml-2 mb-0 font-weight-medium" style="position: relative; left: 130px;">
-                              <span class="text-danger">High : 45%</span><br>
-                              <span class="text-success">Avg : 305%</span>
+                              <span class="text-danger">High : <span id="highest-cpu">0%</span></span><br>
+                              <span class="text-success">Avg : <span id="average-cpu">0%</span></span>
                             </p>
                           </div>
                         </div>
@@ -444,7 +444,8 @@
       $(document).ready(function () {
         // const API_URL = 'http://203.175.10.32:86/api'
         // const API_URL = 'http://103.127.133.99:86/api'
-        const API_URL = 'http://localhost:3000/api'
+        // const API_URL = 'http://10.0.0.5:9090/api'
+        const API_URL = 'http://localhost:4000/api'
 
         let username = localStorage.getItem('username')
         let name = localStorage.getItem('name')
@@ -643,6 +644,7 @@
 
             getTopTraffic(uuid)
             getTopHostname(uuid)
+            systemResource(uuid)
 
             // let routers = ''
             // data.items.forEach((value, index) => {
@@ -770,6 +772,24 @@
         const bytesToMB = (bytes) => {
           return (bytes / (1024 * 1024)).toFixed(2);
         };
+
+        function systemResource(uuid) {
+          $.ajax({
+            type: "GET",
+            url: API_URL+"/system-resource/"+uuid,
+            dataType: "JSON",
+            success: function (response) {
+              console.log(response);
+              let data = response.data[0]
+
+              $("#highest-ram").html(`${data.highest_memory_frequency}%`)
+              $("#average-ram").html(`${data.average_memory_frequency}%`)
+
+              $("#highest-cpu").html(`${data.highest_cpu_load}%`)
+              $("#average-cpu").html(`${data.average_cpu_load}%`)
+            }
+          });
+        }
 
       // function bytesToSize(bytes, decimals = 2) {
       //   if (!Number(bytes)) {
