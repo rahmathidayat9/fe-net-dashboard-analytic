@@ -174,28 +174,32 @@
                 </div>
                 <div class="modal-body">
                     <form id="formUser">
-                        <div class="form-group">
-                            <label for="">Username:</label>
-                            <input type="hidden" id="id_edit" name="id" class="form-control">
-                            <input type="text" id="username_edit" name="username" class="form-control">
-                        </div>
-                        <div class="form-group">
-                          <label for="">Full Name:</label>
-                          <input type="text" id="name_edit" name="name" class="form-control">
-                      </div>
-                        <div class="form-group">
-                            <label for="">Role:</label>
-                            <select class="form-control" name="role_id" id="role_id_edit">
-                              <option value="super admin">Super Admin</option>
-                              <option value="admin">Admin</option>
-                              <option value="teknisi">Teknisi</option>
-                              <option value="satker">Satker</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="">Password:</label>
-                            <input type="password" id="password_edit" name="password" class="form-control">
-                        </div>
+                      <div class="form-group">
+                        <label for="">Username:</label>
+                        <input type="hidden" id="id_edit" name="id_edit" class="form-control">
+                        <input type="text" id="username1" name="username" class="form-control">
+                    </div>
+                    <div class="form-group">
+                      <label for="">Email:</label>
+                      <input type="text" id="email1" name="email" class="form-control">
+                    </div>
+                    <div class="form-group">
+                      <label for="">Full Name:</label>
+                      <input type="text" id="name1" name="name" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="">Role:</label>
+                        <select class="form-control" name="role" id="role1">
+                          <option value="super admin">Super Admin</option>
+                          <option value="admin">Admin</option>
+                          <option value="teknisi">Teknisi</option>
+                          <option value="satker">Satker</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Password:</label>
+                        <input type="password" id="password1" name="password" class="form-control">
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn-update btn btn-primary">Save</button>
@@ -223,12 +227,16 @@
                             <input type="text" id="username" name="username" class="form-control">
                         </div>
                         <div class="form-group">
+                          <label for="">Email:</label>
+                          <input type="text" id="email" name="email" class="form-control">
+                        </div>
+                        <div class="form-group">
                           <label for="">Full Name:</label>
                           <input type="text" id="name" name="name" class="form-control">
                         </div>
                         <div class="form-group">
                             <label for="">Role:</label>
-                            <select class="form-control" name="role_id" id="role_id">
+                            <select class="form-control" name="role" id="role">
                               <option value="super admin">Super Admin</option>
                               <option value="admin">Admin</option>
                               <option value="teknisi">Teknisi</option>
@@ -341,16 +349,21 @@
       $(document).ready(function () {
         // const API_URL = 'http://103.127.133.99:86/api'
         // const API_URL = 'http://203.175.10.32:86/api'
-        const API_URL = 'http://10.0.0.5:9090/api'
-        // const API_URL = 'http://localhost:3000/api'
+        // const API_URL = 'http://10.0.0.5:9090/api'
+        const API_URL = 'https://analytic.digicx.id/api'
+        let token = localStorage.getItem('token')
 
         /* Get Users */
         $.ajax({
           type: "GET",
-          url: API_URL+"/dashboard/list-users",
+          url: API_URL+"/users",
           dataType: "JSON",
+          beforeSend: function(xhr) {
+            xhr.setRequestHeader("Authorization", "Bearer " + token);
+          },
           success: function (response) {
             let data = response.data
+            console.log(data);
 
             var table = $('#datatable').DataTable();
 
@@ -408,14 +421,18 @@
 
           $.ajax({
             type: "GET",
-            url: API_URL+"/dashboard/edit-users/"+id,
+            url: API_URL+"/users/"+id,
             dataType: "JSON",
+            beforeSend: function(xhr) {
+              xhr.setRequestHeader("Authorization", "Bearer " + token);
+            },
             success: function (response) {
-              let data = response.data
+              let data = response.data[0]
               $("#id_edit").val(data.id)
-              $("#name_edit").val(data.name)
-              $("#username_edit").val(data.username)
-              $("#role_id_edit").val(data.role)
+              $("#name1").val(data.name)
+              $("#email1").val(data.email)
+              $("#username1").val(data.username)
+              $("#role1").val(data.role)
 
               $("#userModal").modal("show")
             }
@@ -435,9 +452,12 @@
           .then((willDelete) => {
             if (willDelete) {
               $.ajax({
-                type: "POST",
-                url: API_URL+"/dashboard/delete-users/"+id,
+                type: "DELETE",
+                url: API_URL+"/users/"+id,
                 dataType: "JSON",
+                beforeSend: function(xhr) {
+                  xhr.setRequestHeader("Authorization", "Bearer " + token);
+                },
                 success: function (response) {
                   swal({
                     title: "Good job!",
@@ -460,9 +480,12 @@
         $(document).on("click", ".btn-save", function(e) {
           $.ajax({
             type: "POST",
-            url: API_URL+"/dashboard/create-users",
+            url: API_URL+"/users",
             data: $("#formUserCretae").serialize(),
             dataType: "JSON",
+            beforeSend: function(xhr) {
+              xhr.setRequestHeader("Authorization", "Bearer " + token);
+            },
             success: function (response) {
               swal({
                 title: "Good job!",
@@ -482,10 +505,13 @@
           let id = $("#id_edit").val()
           
           $.ajax({
-            type: "POST",
-            url: API_URL+"/dashboard/update-users/"+id,
+            type: "PUT",
+            url: API_URL+"/users/"+id,
             data: $("#formUser").serialize(),
             dataType: "JSON",
+            beforeSend: function(xhr) {
+              xhr.setRequestHeader("Authorization", "Bearer " + token);
+            },
             success: function (response) {
               swal({
                 title: "Good job!",

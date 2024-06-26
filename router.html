@@ -175,38 +175,23 @@
                 </div>
                 <div class="modal-body">
                     <form id="formRouter">
-                        <div class="form-group">
-                            <label for="">Uuid:</label>
-                            <input type="text" id="uuid_edit" name="uuid" class="form-control">
-                        </div>
-                        <div class="form-group">
-                          <label for="">Name:</label>
-                          <input type="text" id="name_edit" name="name" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <label for="">Ip Address:</label>
-                            <input type="text" id="ipaddress_edit" name="ipaddress" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <label for="">User:</label>
-                            <input type="text" id="user_edit" name="user" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <label for="">Password:</label>
-                            <input type="password" id="pass_edit" name="pass" class="form-control">
-                            <input type="checkbox" name="" id="show-password" class="mt-2"> Show Password
-                        </div>
-                        <div class="form-group">
-                            <label for="">Port:</label>
-                            <input type="text" id="portt_edit" name="portt" class="form-control">
-                            <input type="hidden" value="Active" id="tatus" name="status" class="form-control">
-                        </div>
-                        <div class="form-group">
-                          <label for="">Internet:</label>
-                          <select name="internet" class="form-control" id="internet">
-                            
-                          </select>
-                        </div>
+                      <div class="form-group">
+                        <label for="">Username:</label>
+                        <input type="hidden" id="id_edit" name="id_edit" class="form-control">
+                        <input type="text" id="username1" name="username" class="form-control">
+                      </div>
+                      <div class="form-group">
+                          <label for="">Ip Address:</label>
+                          <input type="text" id="host1" name="host" class="form-control">
+                      </div>
+                      <div class="form-group">
+                          <label for="">Password:</label>
+                          <input type="password" id="pass1" name="pass" class="form-control">
+                      </div>
+                      <div class="form-group">
+                          <label for="">Port:</label>
+                          <input type="text" id="port1" name="port" class="form-control">
+                      </div>
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn-update btn btn-primary">Save</button>
@@ -230,20 +215,12 @@
                 <div class="modal-body">
                     <form id="formRouterCreate">
                         <div class="form-group">
-                            <label for="">Uuid:</label>
-                            <input type="text" id="uuid" name="uuid" class="form-control">
-                        </div>
-                        <div class="form-group">
-                          <label for="">Name:</label>
-                          <input type="text" id="name" name="name" class="form-control">
+                          <label for="">Username:</label>
+                          <input type="text" id="username" name="username" class="form-control">
                         </div>
                         <div class="form-group">
                             <label for="">Ip Address:</label>
-                            <input type="text" id="ipaddress" name="ipaddress" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <label for="">User:</label>
-                            <input type="text" id="user" name="user" class="form-control">
+                            <input type="text" id="host" name="host" class="form-control">
                         </div>
                         <div class="form-group">
                             <label for="">Password:</label>
@@ -251,8 +228,7 @@
                         </div>
                         <div class="form-group">
                             <label for="">Port:</label>
-                            <input type="text" id="portt" name="portt" class="form-control">
-                            <input type="hidden" value="Active" id="status" name="status" class="form-control">
+                            <input type="text" id="port" name="port" class="form-control">
                         </div>
                 </div>
                 <div class="modal-footer">
@@ -279,11 +255,10 @@
                       <table id="datatable" class="table table-striped table-bordered" style="width:100%">
                         <thead>
                             <tr>
-                                <th>Name</th>
-                                <th>Uuid</th>
-                                <th>Host</th>
-                                <th>User</th>
                                 <th>Port</th>
+                                <th>Host</th>
+                                <th>Username</th>
+                                <th>Password</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -358,8 +333,8 @@
       $(document).ready(function () {
         // const API_URL = 'http://103.127.133.99:86/api'
         // const API_URL = 'http://203.175.10.32:86/api'
-        const API_URL = 'http://10.0.0.5:9090/api'
-        // const API_URL = 'http://localhost:3000/api'
+        // const API_URL = 'http://10.0.0.5:9090/api'
+        const API_URL = 'https://analytic.digicx.id/api'
 
         $(document).on('click', '#show-password', function(e) {
           // Get the password input element
@@ -378,25 +353,24 @@
         /* Get Routers */
         $.ajax({
           type: "GET",
-          url: API_URL+"/dashboard/get-router",
+          url: API_URL+"/route",
           dataType: "JSON",
           success: function (response) {
-            let data = response.data.items
+            let data = response.data
 
             var table = $('#datatable').DataTable();
 
             // Add data to the table
             for (var i = 0; i < data.length; i++) {
                 var rowData = data[i];
-                var editButton = '<button class="btn-edit btn btn-primary" data-id="' + rowData.uuid + '">Edit</button>';
-                var deleteButton = '<button class="btn-delete btn btn-danger" data-id="' + rowData.uuid + '">Delete</button>';
+                var editButton = '<button class="btn-edit btn btn-primary" data-id="' + rowData.id + '">Edit</button>';
+                var deleteButton = '<button class="btn-delete btn btn-danger" data-id="' + rowData.id + '">Delete</button>';
 
                 table.row.add([
-                    rowData.name,
-                    rowData.uuid,
-                    rowData.ipaddress,
-                    rowData.user,
                     rowData.port,
+                    rowData.host,
+                    rowData.username,
+                    rowData.pass,
                     editButton + ' ' + deleteButton
                 ]).draw();
             }
@@ -416,7 +390,7 @@
             var name = null
 
             if (storedValue == null) {
-              uuid = data.items[0].uuid
+              uuid = data.items[0].id
               name = data.items[0].name
               localStorage.setItem('router_id', uuid); 
               localStorage.setItem('router_name', name);  
@@ -428,7 +402,7 @@
 
             let routers = ''
             data.items.forEach((value, index) => {
-              routers += `<li class="nav-item"> <a class="nav-link routers" data-name="${value.name}" data-router="${value.uuid}" href="javascript:void(0)">${value.name}</a></li>`  
+              routers += `<li class="nav-item"> <a class="nav-link routers" data-name="${value.name}" data-router="${value.id}" href="javascript:void(0)">${value.name}</a></li>`  
             })
 
             $("#active-router").html(`(${name})`)
@@ -441,36 +415,18 @@
 
           $.ajax({
             type: "GET",
-            url: API_URL+"/dashboard/get-router/",
+            url: API_URL+"/route/"+id,
             dataType: "JSON",
             success: function (response) {
-              $.ajax({
-                type: "GET",
-                url: API_URL+"/dashboard/get-internet?uuid="+id,
-                dataType: "JSON",
-                success: function (response2) {
-                  let items = response.data.items
-                  const data = items.find(item => item.uuid === id);
-                  data || null; // Return null if no match is found
+              let data = response.data[0]
 
-                  $("#uuid_edit").val(data.uuid);
-                  $("#code_edit").val(data.code);
-                  $("#name_edit").val(data.name);
-                  $("#ipaddress_edit").val(data.ipaddress);
-                  $("#user_edit").val(data.user);
-                  $("#pass_edit").val(data.pass);
-                  $("#portt_edit").val(data.port);
+              $("#id_edit").val(data.id);
+              $("#username1").val(data.username);
+              $("#host1").val(data.host);
+              $("#pass1").val(data.pass);
+              $("#port1").val(data.port);
 
-                  let internet = ''
-                  let dataInternet = response2
-                  dataInternet.forEach((value, index) => {
-                    internet += `<option value="${value.name}">${value.name}</option>`
-                  })
-                  $("#internet").html(internet)
-
-                  $("#routerModal").modal("show")
-                }
-              });
+              $("#routerModal").modal("show")
             }
           });
         })
@@ -488,8 +444,8 @@
           .then((willDelete) => {
             if (willDelete) {
               $.ajax({
-                type: "POST",
-                url: API_URL+"/dashboard/remove-router/"+id,
+                type: "DELETE",
+                url: API_URL+"/route/"+id,
                 dataType: "JSON",
                 success: function (response) {
                   swal({
@@ -515,7 +471,7 @@
               
             $.ajax({
                 type: "POST",
-                url: API_URL+"/dashboard/add-router",
+                url: API_URL+"/route",
                 data: $("#formRouterCreate").serialize(),
                 dataType: "JSON",
                 success: function (response) {
@@ -538,8 +494,8 @@
           e.preventDefault()
           
           $.ajax({
-            type: "POST",
-            url: API_URL+"/dashboard/update-router",
+            type: "PUT",
+            url: API_URL+"/route/"+id,
             data: $("#formRouter").serialize(),
             dataType: "JSON",
             success: function (response) {
@@ -550,7 +506,6 @@
                 button: "Aww yiss!",
               });
 
-              localStorage.setItem('defaultInterface', $("#internet").val())
               setTimeout(() => {
                 document.location.href = "/router.html"
               }, 1500);

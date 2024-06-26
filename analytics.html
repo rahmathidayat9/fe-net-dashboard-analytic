@@ -232,27 +232,7 @@
                             <th>Total Bandwidth</th>
                           </tr>
                       </thead>
-                      <tbody>
-                      <tr>
-                        <td>google.com</td>
-                        <td>30 MBps</td>
-                      </tr>
-                      <tr>
-                        <td>youtube.com</td>
-                        <td>15 MBps</td>
-                      </tr>
-                      <tr>
-                        <td>twitter.com</td>
-                        <td>14 MBps</td>
-                      </tr>
-                      <tr>
-                        <td>bing.com</td>
-                        <td>11 MBps</td>
-                      </tr>
-                      <tr>
-                        <td>tesla.com</td>
-                        <td>5 MBps</td>
-                      </tr>
+                      <tbody id="top-sites">
                       </tbody>
                     </table>
                   </div>
@@ -444,8 +424,8 @@
       $(document).ready(function () {
         // const API_URL = 'http://203.175.10.32:86/api'
         // const API_URL = 'http://103.127.133.99:86/api'
-        const API_URL = 'http://10.0.0.5:9090/api'
-        // const API_URL = 'http://localhost:3000/api'
+        // const API_URL = 'http://10.0.0.5:9090/api'
+        const API_URL = 'http://localhost:3000/api'
 
         let username = localStorage.getItem('username')
         let name = localStorage.getItem('name')
@@ -641,9 +621,11 @@
             const day = String(currentDate.getDate()).padStart(2, '0');
 
             const formatDate = `${year}-${month}-${day}`;
+            // const fix_date = `${day}-${month}-${year}`;
 
             getTopTraffic(uuid)
-            getTopHostname(uuid)
+            // getTopHostname(uuid)
+            getTopHostname(formatDate, formatDate)
             systemResource(uuid)
 
             // let routers = ''
@@ -757,7 +739,7 @@
               });
 
               getTopTraffic(uuid)
-              getTopHostname(uuid)
+              // getTopHostname(uuid)
 
               $("#routerModal").modal("hide")
 
@@ -852,6 +834,7 @@
         });
       }
 
+      /*
       function getTopHostname(uuid) {
         $.ajax({
           type: "GET",
@@ -873,14 +856,57 @@
           }
         });
       }
+      */
 
+      function getTopHostname(from_date, to_date) {
+        $.ajax({
+          type: "GET",
+          url: API_URL+"/top-host-name?from_date="+from_date+"&to_date="+to_date,
+          dataType: "JSON",
+          success: function (response) {
+            let data = response.data
+            // console.log(data);
+            console.log(response);
+            $("#top-sites").html("")
+            data.forEach((value, index) => {
+              $("#top-sites").append(`
+              <tr>
+                <td>${value.site}</td>
+                <td>-</td>
+              </tr>
+              `)                
+            });
+          }
+        });
+      } 
+
+        function formatDate(inputDate) {
+          // Parse the input date
+          const date = new Date(inputDate);
+
+          // Extract the day, month, and year
+          const day = String(date.getDate()).padStart(2, '0');
+          const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+          const year = date.getFullYear();
+
+          // Format the date as "dd-mm-yyyy"
+          const formattedDate = `${day}-${month}-${year}`;
+          return formattedDate;
+        }
+        
         $(document).on("click", "#filter-btn", function(e) {
           let from_date = $("#from").val()
           let to_date = $("#to").val()
 
           let router_id = localStorage.getItem('router_id')
           getTopTraffic(router_id)
-          getTopHostname(router_id)
+
+          let fix_from_date = formatDate(from_date)
+          let fix_to_date = formatDate(to_date)
+
+          getTopHostname(from_date, to_date)
+          console.log(from_date);
+          console.log(to_date);
         })
       });
     </script>

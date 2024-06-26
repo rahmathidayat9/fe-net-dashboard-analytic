@@ -188,11 +188,11 @@
                       </button>
                     </div>
                     <div class="modal-body">
-                      <table id="nonactive-table" class="table table-striped table-bordered" style="width:100%">
+                      <table id="" class="table table-striped table-bordered" style="width:100%">
                         <thead>
                             <tr>
+                              <th>Address</th>
                               <th>Name</th>
-                              <th>IP Address</th>
                               <th>Last Seen</th>
                               <th>Status</th>
                             </tr>
@@ -369,12 +369,12 @@
                       <div class="col-12">
                       <table id="datatable" class="table table-striped table-bordered" style="width:100%">
                         <thead>
-                            <tr>
-                              <th>Name</th>
-                              <th>IP Address</th>
-                              <th>Last Seen</th>
-                              <th>Status</th>
-                            </tr>
+                          <tr>
+                            <th>Address</th>
+                            <th>Name</th>
+                            <th>Last Seen</th>
+                            <th>Status</th>
+                          </tr>
                         </thead>
                         <tbody>
                         </tbody>
@@ -505,11 +505,117 @@
         // const API_URL = 'http://103.127.133.99:86/api'
         // const socket = io('http://103.127.133.99:86');
         
-        const API_URL = 'http://10.0.0.5:9090/api'
-        const socket = io('http://10.0.0.5:9090');
+        // const API_URL = 'http://10.0.0.5:9090/api'
+        // const socket = io('http://10.0.0.5:9090');
 
-        // const API_URL = 'http://localhost:3000/api'
-        // const socket = io('http://localhost:3000');
+        const API_URL = 'https://analytic.digicx.id/api'
+        var socket = io("https://analytic.digicx.id");
+
+        const formatBytes = (bytes) => {
+          const sizes = ["Bytes", "KB", "MB", "GB", "TB"];
+          if (bytes === 0) return "0 Byte";
+          const i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)), 10);
+          const value = bytes / Math.pow(1024, i);
+          return `${value.toFixed(2)} ${sizes[i]}`;
+        };
+
+        socket.on("connect", () => {
+          console.log("connected to server");
+
+          socket.emit("system-resource", { router: "1" });
+          // socket.emit("top-interface-graph");
+          socket.on("new-data", function (data) {
+            console.log("System resource:", data);
+
+            $("#ram").html(data.memory)
+            $("#cpu").html(data.cpu)
+            $("#hdd").html(data.hdd)
+          });
+
+          socket.emit("bandwith", { router: "1" });
+          socket.on("new-bandwith", function (data) {
+            let rx_byte = formatBytes(data.rx_byte);
+            let tx_byte = formatBytes(data.tx_byte);
+
+            $("#download").html(rx_byte)
+            $("#upload").html(tx_byte)
+
+            console.log("Bandwith:", data);
+          });
+
+          socket.emit("dhcp-servers", { router: "1" });
+          socket.on("new-servers", function (data) {
+            console.log("Received new data from server:", data);
+          });
+        });
+
+        var table = $('#datatable').DataTable({
+            "ajax": {
+                "url": "http://191.101.190.202:82/api/ip/dhcp-servers/1", // Replace with your server endpoint
+                "dataSrc": function (json) {
+                    // Assuming the structure {active: 15, detail: Array(15), inactive: 0}
+                    return json.detail;
+                }
+            },
+            "columns": [
+                { "data": "address" },
+                { "data": "name" },
+                { "data": "last_seen" },
+                { "data": "status" },
+            ]
+        });
+
+        setInterval(function() {
+          table.ajax.reload(null, false); // user paging is not reset on reload
+        }, 5000);
+
+        // function getDhcp() {
+        //     $.ajax({
+        //         url: 'http://191.101.190.202:82/api/ip/dhcp-servers/1', // Replace with your server endpoint
+        //         method: 'GET',
+        //         dataType: 'json',
+        //         success: function (data) {
+        //             // Handle the data received from the server
+        //             console.log(data.detail);
+        //             $('#datatable').DataTable({
+        //               data: data.detail,
+        //               pageLength: 5,
+        //               columns: [
+        //                 { data: 'address', title: 'Address' },
+        //                 { data: 'name', title: 'Host Name' },
+        //                 { data: 'last_seen', title: 'Last Seen' },
+        //                 { data: 'status', title: 'Status' },
+        //               ]
+        //             });
+
+        //         },
+        //         error: function (jqXHR, textStatus, errorThrown) {
+        //             console.error('Error fetching data: ', textStatus, errorThrown);
+        //         }
+        //     });
+        // }
+
+        // getDhcp()
+        // Fetch data initially
+        // getDhcp();
+
+        // // Set interval to fetch data every 5 min
+        // setTimeout(getDhcp, 1000);
+        // setInterval(getDhcp, 5000);
+
+        // socket.on("connect", () => {
+        //   console.log("connected to server");
+
+        //   socket.emit("system-resource", { router: "1" });
+        // });
+
+        socket.on('system-resource', function(data) {
+          console.log(data);
+        });
+
+        // socket.on('bandwith', function(data) {
+        //   console.log(data);
+        // });
 
         let username = localStorage.getItem('username')
         let name = localStorage.getItem('name')
@@ -894,21 +1000,6 @@
           });
         }
 
-        function formatBytesInternet(bytes) {
-          if (bytes < 1024) {
-              return bytes + ' Bps';
-          } else if (bytes < 1024 * 1024) {
-              return (bytes / 1024).toFixed(2) + ' Kbps';
-          } else {
-              return (bytes / (1024 * 1024)).toFixed(2) + ' Mbps';
-          }
-        }
-
-        function formatBytes(bytes) {
-          let kilobyte = bytes / 1024;
-          return parseInt(kilobyte)
-        }
-
         let defaultInterface = localStorage.getItem('defaultInterface');
         socket.on(defaultInterface, function (data) {
           const uploadData = formatBytes(data.upload);
@@ -965,6 +1056,7 @@
           });
         })
 
+        // Default Interface Chart
         let chartOptions = {
           credits: {
             enabled: false
